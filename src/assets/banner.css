@@ -1,0 +1,6 @@
+/* https://github.com/jgthms/bulma/issues/1007 */
+.has-bg-img {
+    background-position: center center;
+    background-size: cover;
+    overflow-x: hidden;
+}
