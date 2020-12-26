@@ -1,5 +1,5 @@
 // Custom option, use predifined url
-export const predifined_url = "https://pablouser1.ddns.net/IberbookEdu"
+export const predifined_url = null
 // API request url from user choise
 function getServer() {
     if (predifined_url) {
