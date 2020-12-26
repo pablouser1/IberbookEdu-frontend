@@ -30,8 +30,10 @@ export default {
   },
   created: async function() {
     let banner = await getBanner()
-    this.banner = banner.data
-    document.getElementById("menu-hero").style.backgroundImage = `url('${this.baseurl}/yearbooks/${this.banner.url}')`
+    if (banner.code === "C") {
+      this.banner = banner.data
+      document.getElementById("menu-hero").style.backgroundImage = `url('${this.baseurl}/yearbooks/${this.banner.url}')`
+    }
   }
 };
 </script>
