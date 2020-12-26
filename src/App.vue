@@ -9,7 +9,6 @@
 <script>
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
-import { predifined_url } from './services/config.js'
 import { startup } from './services/common.js'
 export default {
   name: 'App',
@@ -25,18 +24,12 @@ export default {
   },
   beforeCreate: async function() {
     // SERVER CONFIG
-    let server;
-    if (!predifined_url) {
-      if (!localStorage.servers || !this.$store.state.servers) {
-        this.$router.push('/config')
-      }
-      // Set all servers
-      this.$store.commit('setServers', JSON.parse(localStorage.servers))
-      server = this.$store.state.servers.active
+    if (!localStorage.servers || !this.$store.state.servers) {
+      this.$router.push('/config')
     }
-    else {
-      server = predifined_url
-    }
+    // Set all servers
+    this.$store.commit('setServers', JSON.parse(localStorage.servers))
+    const server = this.$store.state.servers.active
     // Ping server
     const serverinfo = await startup(server)
     if (!serverinfo) {
