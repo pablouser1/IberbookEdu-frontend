@@ -5,13 +5,13 @@
       <p>Bienvenido a IberbookEdu.</p>
       <p>
         Este es un proyecto de
-        <a href="https://github.com/pablouser1/IberbookEdu">código abierto</a>
+        <a href="https://github.com/pablouser1/IberbookEdu-frontend">código abierto</a>
         creado por diversión distribuido bajo
         <a href="https://www.gnu.org/licenses/agpl-3.0-standalone.html"
           >la licencia AGPLv3.</a
         >
         Si encuentras algún problema, por favor crea un "issue" en
-        <a href="https://github.com/pablouser1/IberbookEdu/issues">Github</a>
+        <a href="https://github.com/pablouser1/IberbookEdu-frontend/issues">Github</a>
       </p>
     </div>
     <hr />
@@ -46,11 +46,10 @@
         Este programa no sería posible sin la ayuda de los siguientes proyectos:
       </p>
       <ul>
-        <li>Bulma (<a href="https://bulma.io" rel="nofollow">enlace</a>)</li>
         <li>Vue.js (<a href="https://vuejs.org" rel="nofollow">enlace</a>)</li>
-        <li>Animate.css (<a href="https://animate.style" rel="nofollow">enlace</a>)</li>
-        <li>Confetti.js (<a href="https://github.com/mathusummut/confetti.js" rel="nofollow">enlace</a>)</li>
-        <li>Spinkit (<a href="https://github.com/tobiasahlin/SpinKit" rel="nofollow">enlace</a>)</li>
+        <li>Bulma (<a href="https://bulma.io" rel="nofollow">enlace</a>)</li>
+        <li>Buefy (<a href="https://buefy.org" rel="nofollow">enlace</a>)</li>
+        <li>Spinkit (<a href="https://tobiasahlin.com/spinkit" rel="nofollow">enlace</a>)</li>
       </ul>
       <br>
       <p>Assets usados:</p>
@@ -60,10 +59,9 @@
           (https://creativecommons.org/licenses/by-sa/3.0)
         </li>
       </ul>
-      <br />
-      <p>Puedes ver sus licencias <a href="externalprojects.html">aquí</a></p>
+      <br>
     </div>
-    <hr />
+    <hr>
     <div class="container">
       <h1 class="title">Creado por</h1>
       <span
@@ -71,7 +69,7 @@
         <a
           href="https://twitter.com/pablouser1"
           target="_blank"
-          rel="”nofollow”"
+          rel="nofollow"
           >@pablouser1</a
         ></span
       >

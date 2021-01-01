@@ -1,8 +1,37 @@
+<i18n>
+{
+    "en": {
+        "info": "Your info",
+        "link": "Open link",
+        "upload": {
+            "add": "Upload/Replace data",
+            "photo": "Add photo",
+            "video": "Add video",
+            "quote": "Quote",
+            "link": "Link",
+            "send": "Send"
+        }
+    },
+    "es": {
+        "info": "Tus datos",
+        "link": "Abrir enlace",
+        "upload": {
+            "add": "Subir/Reemplazar datos",
+            "photo": "Agregar foto",
+            "video": "Agregar vídeo",
+            "quote": "Cita",
+            "link": "Enlace",
+            "send": "Enviar"
+        }
+    }
+}
+</i18n>
+
 <template>
     <div>
         <p class="title has-text-centered">
             <b-icon icon="database"></b-icon>
-            <span>Tus datos</span>
+            <span>{{ $t("info") }}</span>
         </p>
         <div v-if="uploads">
             <div class="columns is-centered is-vcentered">
@@ -23,7 +52,7 @@
                             <figcaption class="quote-by">— {{ user.name }}</figcaption>
                         </figure>
                     </div>
-                    <b-button :v-if="uploads.link" type="is-info" tag="a" :href="uploads.link" target="_blank">Abrir enlace</b-button>
+                    <b-button :v-if="uploads.link" type="is-info" tag="a" :href="uploads.link" target="_blank">{{ $t("link") }}</b-button>
                 </div>
             </div>
         </div>
@@ -32,7 +61,7 @@
         <!-- Upload More -->
         <p class="title has-text-centered">
             <b-icon icon="database"></b-icon>
-            <span>Agregar datos</span>
+            <span>{{ $t("upload.add") }}</span>
         </p>
         <div class="container has-text-centered">
             <div class="columns is-mobile is-multiline is-centered is-vcentered">
@@ -41,7 +70,7 @@
                         <b-upload accept="image/gif,image/png,image/jpeg" v-model="input.photo" class="file-label">
                             <span class="file-cta">
                                 <b-icon class="file-icon" icon="upload"></b-icon>
-                                <span class="file-label">Subir foto</span>
+                                <span class="file-label">{{ $t("upload.photo") }}</span>
                             </span>
                             <span class="file-name" v-if="input.photo">
                                 {{ input.photo.name }}
@@ -54,7 +83,7 @@
                         <b-upload accept="video/mp4,video/webm" v-model="input.video" class="file-label">
                             <span class="file-cta">
                                 <b-icon class="file-icon" icon="upload"></b-icon>
-                                <span class="file-label">Subir vídeo</span>
+                                <span class="file-label">{{ $t("upload.video") }}</span>
                             </span>
                             <span class="file-name" v-if="input.video">
                                 {{ input.video.name }}
@@ -63,13 +92,13 @@
                     </b-field>
                 </div>
             </div>
-            <b-field position="is-centered" label="Quote">
+            <b-field position="is-centered" :label="$t('upload.quote')">
                 <b-input v-model="input.quote" placeholder="Hello, this is an example" maxlength="200" type="textarea"></b-input>
             </b-field>
-            <b-field position="is-centered" label="Link">
+            <b-field position="is-centered" :label="$t('link')">
                 <b-input v-model="input.link" placeholder="https://github.com/pablouser1/IberbookEdu"></b-input>
             </b-field>
-            <b-button :loading="isUploading" @click="uploadFiles">Enviar</b-button>
+            <b-button :loading="isUploading" @click="uploadFiles">{{ $t("upload.send") }}</b-button>
         </div>
     </div>
 </template>
@@ -99,7 +128,7 @@ export default {
     },
     methods: {
         uploadFiles: async function() {
-            this.uploading = true
+            this.isUploading = true
             const res = await handleUpload(this.input)
             if (res.code === "C") {
                 this.uploads = await getUserUploads()
@@ -110,7 +139,7 @@ export default {
                     type: 'is-success'
                 })
             }
-            this.uploading = false
+            this.isUploading = false
         }
     },
     computed: {

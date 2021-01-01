@@ -25,3 +25,11 @@ export async function requests(url, method, data) {
     }
 }
 
+export function hasPredifinedURL() {
+    if (process.env.VUE_APP_SERVER) {
+        return true
+    }
+    else {
+        return false
+    }
+}

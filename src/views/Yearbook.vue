@@ -12,11 +12,11 @@
                 <p class="subtitle">{{ yearbook.acyear }}</p>
                 <p>{{ yearbook.votes }} voto(s)</p>
                 <div class="buttons is-centered">
-                    <b-button size="is-medium" tag="a" type="is-link" target="_blank" icon-left="book" :href="baseurl + '/yearbooks/' + yearbook.id">Ver orla</b-button>
+                    <b-button size="is-medium" tag="a" type="is-link" target="_blank" icon-left="book" :href="baseurl + yearbook.url">Ver orla</b-button>
                 </div>
                 <!-- Opciones básicas -->
                 <div class="buttons is-centered">
-                    <b-button tag="a" type="is-link" target="_blank" icon-left="zip-box" :href="baseurl + '/yearbooks/' + yearbook.id + '/yearbook.zip'">Descargar zip</b-button>
+                    <b-button tag="a" type="is-link" target="_blank" icon-left="zip-box" :href="baseurl + yearbook.url + '/yearbook.zip'">Descargar zip</b-button>
                     <button @click="vote(yearbook.id)" class="button is-primary">
                         <b-icon icon="ballot"></b-icon>
                         <span>Votar</span>
@@ -38,11 +38,13 @@
                     </div>
                 </div>
             </div>
+            <Loading v-else></Loading>
         </div>
     </section>
 </template>
 
 <script>
+import Loading from "@/components/Loading.vue"
 import { BASE_URL } from "@/services/config.js"
 import { getYearbook } from "@/services/common.js"
 import { setVote } from "@/services/user.js"
@@ -52,6 +54,7 @@ import "@/assets/banner.css"
 export default {
     name: "Yearbook",
     props: ["id"],
+    components: { Loading },
     data: function () {
         return {
             yearbook: null,
@@ -81,14 +84,14 @@ export default {
             }
             // Vote went OK
             else {
-                this.$buefy.toast("Voto registrado con éxito")
+                this.$buefy.toast.open("Voto registrado con éxito")
                 this.yearbook.votes++;
             }
         }
     },
     async created() {
         this.yearbook = await getYearbook(this.id)
-        this.url = window.location.href;
+        this.url = this.baseurl + this.yearbook.url;
         this.shareurl = encodeURIComponent(this.url);
         let starturl;
         if(/Android|iPhone|iPod|BlackBerry|Opera Mini/i.test(navigator.userAgent)){

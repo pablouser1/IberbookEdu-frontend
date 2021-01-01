@@ -2,13 +2,14 @@
   <div id="app">
     <Navbar></Navbar>
     <router-view/>
-    <Footer v-show="!enableFooter"></Footer>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
+import { hasPredifinedURL } from './services/api.js'
 import { startup } from './services/common.js'
 export default {
   name: 'App',
@@ -16,23 +17,37 @@ export default {
     Navbar,
     Footer
   },
-  computed: {
-    // Disable footer
-    enableFooter() {
-      return this.$route.name === 'Home' || 'Yearbook'
-    }
-  },
   beforeCreate: async function() {
-    // SERVER CONFIG
-    if (!localStorage.servers || !this.$store.state.servers) {
-      this.$router.push('/config')
+    // Initial setup
+    let server;
+    // Check if URL is hardcoded in .env
+    if (!hasPredifinedURL()) {
+      // Did user already finished the setup?
+      if (!localStorage.servers || !this.$store.state.servers) {
+        this.$router.push('/config')
+      }
+      else {
+        this.$store.commit('setServers', JSON.parse(localStorage.servers))
+        server = this.$store.state.servers.active
+      }
     }
-    // Set all servers
-    this.$store.commit('setServers', JSON.parse(localStorage.servers))
-    const server = this.$store.state.servers.active
+    else {
+      server = process.env.VUE_APP_SERVER
+    }
+    
     // Ping server
     const serverinfo = await startup(server)
-    if (!serverinfo) {
+    if (serverinfo) {
+      // Check if cookie didn't expire (TODO, refresh tokens)
+      if (!serverinfo.loggedin && localStorage.loggedin) {
+        this.$store.commit('setLoggedin', false)
+        this.$store.commit('setUserinfo', null)
+        localStorage.removeItem("loggedin")
+        localStorage.removeItem("userinfo")
+        this.$buefy.toast.open("Tu sesión ha caducado, inicie sesión otra vez")
+      }
+    }
+    else {
       // Set server config
       this.$buefy.toast.open({
         duration: 5000,

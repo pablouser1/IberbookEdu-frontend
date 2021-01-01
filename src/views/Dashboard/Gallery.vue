@@ -1,8 +1,18 @@
+<i18n>
+{
+    "en": {
+        "groupgallery": "Group's gallery"
+    },
+    "es": {
+        "groupgallery": "Galería de tu grupo"
+    }
+}
+</i18n>
 <template>
     <div>
-        <p class="title">
-            <i class="fas fa-photo-video"></i>
-            <span>Galería de tu grupo</span>
+        <p class="title has-text-centered">
+            <b-icon icon="image-album" size="is-medium"></b-icon>
+            <span>{{ $t("groupgallery") }}</span>
         </p>
         <div class="columns is-centered is-vcentered">
             <div v-for="item in gallery" v-bind:key="item.id" class="column is-one-quarter-desktop">

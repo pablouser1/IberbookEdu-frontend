@@ -1,23 +1,52 @@
+<i18n>
+{
+    "en": {
+        "username": "Username",
+        "password": "Password",
+        "im": "I'm...",
+        "types": {
+            "select": "Choose a rank",
+            "student": "Student",
+            "guardian": "Guardian",
+            "teacher": "Teacher"
+        },
+        "login": "Login"
+    },
+    "es": {
+        "username": "Nombre de usuario",
+        "password": "Contraseña",
+        "im": "Soy...",
+        "types": {
+            "select": "Elige un rango",
+            "student": "Alumno",
+            "guardian": "Tutor legal",
+            "teacher": "Profesor"
+        },
+        "login": "Iniciar sesión"
+    }
+}
+</i18n>
+
 <template>
     <section class="section">
         <div class="container">
             <!-- FORM -->
 
             <!-- Username -->
-            <b-field label="Nombre de usuario">
+            <b-field :label="$t('username')">
                 <b-input icon="account" size="medium" v-model="input.username"></b-input>
             </b-field>
 
             <!-- Password -->
-            <b-field label="Contraseña">
+            <b-field :label="$t('password')">
                 <b-input icon="lock" type="password" size="medium" v-model="input.password"></b-input>
             </b-field>
                         
-            <b-field label="Soy...">
-                <b-select v-model="input.type" placeholder="Selecciona un rango">
-                    <option value="students">Alumno</option>
-                    <option value="guardians">Tutor legal</option>
-                    <option value="teachers">Profesor</option>
+            <b-field :label="$t('im')">
+                <b-select v-model="input.type" :placeholder="$t('types.select')">
+                    <option value="students">{{ $t("types.student") }}</option>
+                    <option value="guardians">{{ $t("types.guardian") }}</option>
+                    <option value="teachers">{{ $t("types.teacher") }}</option>
                 </b-select>
             </b-field>
             <b-button icon-left="login-variant" :loading="loggingIn" @click="startLogin" type="is-primary" expanded>Iniciar sesión</b-button>

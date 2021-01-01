@@ -6,7 +6,7 @@
         </section>
         <section class="section">
             <div class="container has-text-centered">
-                <b-button :disabled="limit" @click="newYearbooks">Cargar más</b-button>
+                <b-button :disabled="limit" @click="newYearbooks">More</b-button>
             </div>
         </section>
     </div>

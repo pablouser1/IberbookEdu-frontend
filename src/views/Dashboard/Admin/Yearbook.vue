@@ -1,16 +1,53 @@
+<i18n>
+{
+    "en": {
+        "create": {
+            "manage": "Manage yearbook",
+            "template": "Template",
+            "generate": "Generate yearbook",
+            "banner": "Upload banner"
+        },
+        "generated": {
+            "yearbook": "Your yearbook",
+            "date": "Generated on {date}",
+            "see": "See yearbook",
+            "delete": "Delete yearbook"
+        }
+    },
+    "es": {
+        "create": {
+            "manage": "Administrar orla",
+            "template": "Plantilla",
+            "generate": "Generar orla",
+            "banner": "Subir cabecera"
+        },
+        "generated": {
+            "yearbook": "Tu orla",
+            "date": "Generada el {date}",
+            "see": "Ver orla",
+            "delete": "Eliminar orla"
+        }
+    }
+}
+</i18n>
+
 <template>
     <div class="container">
         <div v-if="yearbook">
-            <h1 class='title'>Tu orla</h1>
-            <p class='subtitle'>Generada el {{ yearbook.generated }}
+            <h1 class='title'>{{ $t("generated.yearbook") }}</h1>
+            <i18n class="subtitle" path="generated.date" tag="p">
+                <template v-slot:date>
+                    <span>{{ yearbook.generated }}</span>
+                </template>
+            </i18n>
             <div class='buttons'>
-                <router-link class="button is-success" to="/yearbooks" tag="button">Ver orla</router-link>
-                <b-button @click="deleteYearbook" type="is-danger">Eliminar orla</b-button>
+                <router-link class="button is-success" to="/yearbooks" tag="button">{{ $t("generated.see") }}</router-link>
+                <b-button @click="deleteYearbook" type="is-danger">{{ $t("generated.delete") }}</b-button>
             </div>
         </div>
         <div v-else>
-            <p class="title">Administrar yearbook</p>
-            <b-field label="Plantilla">
+            <p class="title">{{ $t("create.manage") }}</p>
+            <b-field :label="$t('create.template')">
                 <b-select v-if="themes" v-model="chosenTheme">
                     <option v-for="(theme, index) in themes" :key="index">{{theme}}</option>
                 </b-select>
@@ -19,14 +56,14 @@
                 <b-upload accept="image/gif,image/png,image/jpeg" v-model="banner" class="file-label">
                     <span class="file-cta">
                         <b-icon class="file-icon" icon="upload"></b-icon>
-                        <span class="file-label">Subir banner</span>
+                        <span class="file-label">{{ $t("create.banner") }}</span>
                     </span>
                     <span class="file-name" v-if="banner">
                         {{ banner.name }}
                     </span>
                 </b-upload>
             </b-field>
-            <b-button @click="uploadYearbook" v-bind:class="{ 'is-loading': generating}">Generar orla</b-button>
+            <b-button @click="uploadYearbook" v-bind:class="{ 'is-loading': generating}">{{ $t("create.generate") }}</b-button>
         </div>
     </div>
 </template>

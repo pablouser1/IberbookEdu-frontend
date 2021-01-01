@@ -1,21 +1,58 @@
+<i18n>
+{
+    "en": {
+        "userinfo": "User info",
+        "rank": "Rank",
+        "group": "Group",
+        "yearbook": {
+            "ready": "Your yearbook is ready",
+            "see": "View"
+        },
+        "classmates": "Classmates",
+        "columns": {
+            "name": "Name",
+            "type": "Type",
+            "subject": "Subject",
+            "lastseen": "Last seen"
+        }
+    },
+    "es": {
+        "userinfo": "Información del usuario",
+        "rank": "Rango",
+        "group": "Grupo",
+        "yearbook": {
+            "ready": "Tu orla está lista",
+            "see": "Ver"
+        },
+        "classmates": "Compañeros de clase",
+        "columns": {
+            "name": "Nombre",
+            "type": "Tipo",
+            "subject": "Asignatura",
+            "lastseen": "Última modificación"
+        }
+    }
+}
+</i18n>
+
 <template>
     <div class="container">
-        <p class="title">Información del usuario:</p>
-        <p>Rango: {{ userinfo.rank }}</p>
-        <p>Grupo: {{ userinfo.year }}</p>
+        <p class="title">{{ $t("userinfo") }}:</p>
+        <p>{{ $t("rank") }}: {{ userinfo.rank }}</p>
+        <p>{{ $t("group") }}: {{ userinfo.year }}</p>
         <div v-if="yearbook">
             <hr>
             <section class="hero is-success is-medium">
                 <div class="hero-body">
                     <div class="container">
-                        <h1 class="title">Tu orla está lista</h1>
-                        <router-link :to="'/yearbooks/' + yearbook.id">Ver</router-link>
+                        <h1 class="title">{{ $t("yearbook.ready") }}</h1>
+                        <router-link :to="'/yearbooks/' + yearbook.id">{{ $t("yearbook.see") }}</router-link>
                     </div>
                 </div>
             </section>
             <hr>
         </div>
-        <p class="title">Compañeros de clase:</p>
+        <p class="title">{{ $t("classmates") }}:</p>
         <b-table :data="groupdata" :columns="columns"></b-table>
     </div>
 </template>
@@ -31,19 +68,19 @@ export default {
             columns: [
                 {
                     field: 'name',
-                    label: 'Nombre'
+                    label: this.$t("columns.name")
                 },
                 {
                     field: 'type',
-                    label: 'Tipo'
+                    label: this.$t("columns.type")
                 },
                 {
                     field: 'subject',
-                    label: 'Asignatura'
+                    label: this.$t("columns.subject")
                 },
                 {
                     field: 'uploaded',
-                    label: 'Última modificación'
+                    label: this.$t("columns.lastseen")
                 }
             ]
         }

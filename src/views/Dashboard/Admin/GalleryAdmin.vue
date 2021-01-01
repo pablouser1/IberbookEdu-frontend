@@ -1,3 +1,24 @@
+<i18n>
+{
+    "en": {
+        "photos": "photos",
+        "videos": "videos",
+        "draghere": "Drag {type} here or click to upload",
+        "description": "Description of the {type}",
+        "overwrite": "Overwrite",
+        "send": "Send"
+    },
+    "es": {
+        "photos": "las fotos",
+        "videos": "los vídeos",
+        "draghere": "Arrastra {type} aquí o haz click para subir",
+        "description": "Descripción de {type}",
+        "overwrite": "Sobrescribir",
+        "send": "Enviar"
+    }
+}
+</i18n>
+
 <template>
     <div class="container">
         <div class="columns is-centered is-vcentered is-multiline">
@@ -12,7 +33,11 @@
                                 <p>
                                     <b-icon icon="upload" size="is-large"></b-icon>
                                 </p>
-                                <p>Arrastra las imágenes aquí o haz click para subir</p>
+                                <i18n path="draghere" tag="p">
+                                    <template v-slot:type>
+                                        <span>{{ $t("photos") }}</span>
+                                    </template>
+                                </i18n>
                             </div>
                         </section>
                     </b-upload>
@@ -29,7 +54,11 @@
                                 <p>
                                     <b-icon icon="upload" size="is-large"></b-icon>
                                 </p>
-                                <p>Arrastra los vídeos aquí o haz click para subir</p>
+                                <i18n path="draghere" tag="p">
+                                    <template v-slot:type>
+                                        <span>{{ $t("videos") }}</span>
+                                    </template>
+                                </i18n>
                             </div>
                         </section>
                     </b-upload>
@@ -37,8 +66,12 @@
             </div>
         </div>
         <div class="columns is-centered is-vcentered is-multiline">
-            <div v-if="files.photos" class="column is-narrow">
-                <p>Descripciones de fotos:</p>
+            <div v-if="files.photos.length" class="column is-narrow">
+                <i18n path="description" tag="p">
+                    <template v-slot:type>
+                        <span>{{ $t("photos") }}</span>
+                    </template>
+                </i18n>
                 <div class="columns is-multiline">
                     <div class="column is-narrow" v-for="(photo, index) in files.photos" v-bind:key="'photo' + index">
                         <b-field :label="photo.name">
@@ -47,8 +80,12 @@
                     </div>
                 </div>
             </div>
-            <div v-if="files.videos" class="column is-narrow">
-                <p>Descripciones de Vídeos:</p>
+            <div v-if="files.videos.length" class="column is-narrow">
+                <i18n path="description" tag="p">
+                    <template v-slot:type>
+                        <span>{{ $t("videos") }}</span>
+                    </template>
+                </i18n>
                 <div class="columns is-multiline">
                     <div class="column is-narrow" v-for="(video, index) in files.videos" v-bind:key="'video' + index">
                         <b-field :label="video.name">
@@ -59,9 +96,9 @@
             </div>
         </div>
         <div class="field">
-            <b-checkbox v-model="overwrite">Sobreescribir datos</b-checkbox>
+            <b-checkbox v-model="overwrite">{{ $t("overwrite") }}</b-checkbox>
         </div>
-        <b-button @click="sendGallery">Enviar</b-button>
+        <b-button @click="sendGallery">{{ $t("send") }}</b-button>
     </div>
 </template>
 
@@ -84,7 +121,10 @@ export default {
         sendGallery: function() {
             const newGallery = uploadGallery(this.files, this.overwrite, this.photos_descriptions, this.videos_descriptions)
             if (newGallery.code !== "C") {
-                console.error("TODO")
+                this.$buefy.toast.open("Error al subir")
+            }
+            else {
+                this.$buefy.toast.open("Subido con éxito")
             }
         }
     }

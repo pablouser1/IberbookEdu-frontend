@@ -1,15 +1,36 @@
+<i18n>
+{
+  "en": {
+    "config": "Config",
+    "noconfig": "No config available"
+  },
+  "es": {
+    "config": "Configuración",
+    "noconfig": "No hay ninguna configuración disponible"
+  }
+}
+</i18n>
+
 <template>
   <div>
     <section class="hero is-primary">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">Bienvenido a IberbookEdu</h1>
-          <h2 class="subtitle">Configuración</h2>
+          <h1 class="title">{{ $t("config") }}</h1>
         </div>
       </div>
     </section>
-    <Servers></Servers>
-    <User v-if="loggedin"></User>
+    <b-tabs position="is-centered" class="block">
+      <b-tab-item v-if="!hardcorded_url" label="Servidores">
+        <Servers></Servers>
+      </b-tab-item>
+      <b-tab-item v-if="loggedin" label="Usuario">
+        <User></User>
+      </b-tab-item>
+    </b-tabs>
+    <section class="section" v-if="hardcorded_url && !loggedin">
+      <p>{{ $t("noconfig") }}</p>
+    </section>
   </div>
 </template>
 
@@ -20,6 +41,11 @@ export default {
   name: "Config",
   components: {
     Servers, User
+  },
+  data: function() {
+    return {
+      hardcorded_url: process.env.VUE_APP_SERVER
+    }
   },
   computed: {
     loggedin() {
