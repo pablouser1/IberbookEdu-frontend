@@ -1,14 +1,31 @@
+<i18n>
+{
+  "en": {
+    "title": "Servers",
+    "search": "Search",
+    "add": "Add",
+    "remove": "Remove"
+  },
+  "es": {
+    "title": "Servidores",
+    "search": "Buscar",
+    "add": "Agregar",
+    "remove": "Eliminar"
+  }
+}
+</i18n>
+
 <template>
     <section class="section">
       <div class="container">
         <nav class="panel">
           <p class="panel-heading">
             <b-icon icon="server" size="is-small"></b-icon>
-            <span>Servers</span>
+            <span>{{ $t("title") }}</span>
           </p>
           <div class="panel-block">
             <p class="control has-icons-left">
-              <input v-model="searchServer" class="input" type="text" placeholder="Search">
+              <input v-model="searchServer" class="input" type="text" :placeholder="$t('search')">
               <span class="icon is-left">
                 <b-icon icon="magnify"></b-icon>
               </span>
@@ -18,18 +35,18 @@
             <span>{{ server }}</span>
           </a>
         </nav>
-        <b-field label="Agregar servidor">
+        <b-field :label="$t('add')">
           <b-input v-model="newServer" placeholder="http://example.com/IberbookEdu"></b-input>
           <p class="control">
-            <b-button type="is-primary" @click="setNewServer">Agregar</b-button>
+            <b-button type="is-primary" @click="setNewServer">{{ $t("add") }}</b-button>
           </p>
         </b-field>
-        <b-field label="Eliminar servidor">
+        <b-field :label="$t('remove')">
           <b-select v-model="removeServer">
             <option v-for="(server, index) in servers.list" v-bind:key="index" :value="server">{{server}}</option>
           </b-select>
           <p class="control">
-            <b-button type="is-danger" @click="deleteServer">Eliminar</b-button>
+            <b-button type="is-danger" @click="deleteServer">{{ $t("remove") }}</b-button>
           </p>
         </b-field>
       </div>

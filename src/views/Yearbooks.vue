@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { BASE_URL } from '@/services/config.js'
 import {getYearbooks} from '@/services/common.js'
 import SearchYB from "@/components/Yearbooks/SearchYB.vue"
 import Exhibitor from "@/components/Yearbooks/Exhibitor.vue"
@@ -38,6 +39,7 @@ export default {
                 const fetchedYearbooks = await getYearbooks(this.offset, this.sort)
                 if (fetchedYearbooks.code == "C") {
                     for (let i=0; i<fetchedYearbooks.data.length; i++) {
+                        document.createElement('img').setAttribute('src', `${BASE_URL}/yearbooks/${fetchedYearbooks.data[i].banner}`);
                         this.yearbooks.push(fetchedYearbooks.data[i])
                     }
                     this.offset = this.offset + fetchedYearbooks.data.length
@@ -54,7 +56,7 @@ export default {
                 else {
                     this.$buefy.toast.open({
                         duration: 5000,
-                        message: `Ha habido un error al procesar tu solicitud, ${fetchedYearbooks.error}`,
+                        message: fetchedYearbooks.error,
                         position: 'is-bottom',
                         type: 'is-danger'
                     })
@@ -83,7 +85,7 @@ export default {
             this.newYearbooks()
         }
     },
-    mounted() {
+    created() {
         this.newYearbooks()
     }
 }

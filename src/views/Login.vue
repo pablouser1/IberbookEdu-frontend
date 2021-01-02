@@ -39,7 +39,7 @@
 
             <!-- Password -->
             <b-field :label="$t('password')">
-                <b-input icon="lock" type="password" size="medium" v-model="input.password"></b-input>
+                <b-input icon="lock" type="password" password-reveal size="medium" v-model="input.password"></b-input>
             </b-field>
                         
             <b-field :label="$t('im')">
@@ -76,7 +76,7 @@ export default {
             if (!logindata || logindata.code !== "C") {
                 this.$buefy.dialog.alert({
                     title: 'Error',
-                    message: `Ha habido un error al iniciar sesión.<br>${logindata.error}`,
+                    message: logindata.error,
                     type: 'is-danger',
                     ariaRole: 'alertdialog',
                     ariaModal: true

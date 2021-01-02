@@ -1,20 +1,39 @@
+<i18n>
+{
+    "en": {
+        "user": "User settings",
+        "swap": "Change school / group",
+        "school": "School",
+        "group": "Group",
+        "save": "Save changes"
+    },
+    "es": {
+        "user": "Ajustes del usuario",
+        "swap": "Cambiar centro educativo / curso",
+        "school": "Centro educativo",
+        "group": "Grupo",
+        "save": "Guardar cambios"
+    }
+}
+</i18n>
+
 <template>
     <section class="section">
         <div class="container">
-            <p class="title">Ajustes del usuario</p>
-            <p>Cambiar centro educativo / curso</p>
-            <b-field label="Centro educativo">
+            <p class="title">{{ $t("user") }}</p>
+            <p>{{ $t("swap") }}</p>
+            <b-field :label="$t('school')">
                 <b-select v-model="selectedSchool">
                     <option v-for="(school, index) in userinfo.schools" :key="index" :value="index">{{ school.name }} ({{ school.id }})</option>
                 </b-select>
             </b-field>
-            <b-field v-if="groups" label="Grupo">
+            <b-field v-if="groups" :label="$t('group')">
                 <b-select v-model="selectedGroup">
                     <option v-for="(group, index) in userinfo.schools[selectedSchool].groups" :key="index" :value="index">{{ group.name }}</option>
                 </b-select>
             </b-field>
             <b-field>
-                <b-button @click="sendChanges">Guardar cambios</b-button>
+                <b-button @click="sendChanges">{{ $t("save") }}</b-button>
             </b-field>
         </div>
     </section>

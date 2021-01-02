@@ -1,3 +1,16 @@
+<i18n>
+{
+    "en": {
+        "info": "More info",
+        "votes": "Votes"
+    },
+    "es": {
+        "info": "Más información",
+        "votes": "Votos"
+    }
+}
+</i18n>
+
 <template>
     <div class="container has-text-centered animate__animated animate__fadeIn">
         <div class="columns is-mobile is-centered is-multiline is-vcentered">
@@ -17,13 +30,13 @@
                                 </div>
                             </div>
                             <div class="content">
-                                <p>{{ yearbook.schoolname }} - {{ yearbook.votes }} votos</p>
+                                <p>{{ yearbook.schoolname }} - {{ yearbook.votes }} {{ $t("votes") }}</p>
                             </div>
                         </div>
                         <footer class="card-footer">
                             <router-link :to="'yearbooks/' + yearbook.id" class="card-footer-item">
                                 <b-icon icon="information"></b-icon>
-                                <span>Más información</span>
+                                <span>{{ $t("info") }}</span>
                             </router-link>
                         </footer>
                     </div>
@@ -34,6 +47,7 @@
 </template>
 
 <script>
+import '@/assets/animations.css'
 import { BASE_URL } from "@/services/config.js"
 export default {
     name: "Exhibitor",
@@ -50,14 +64,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-
-</style>

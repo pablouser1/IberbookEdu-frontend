@@ -20,7 +20,7 @@ export async function requests(url, method, data) {
     catch {
         return {
             code: "E",
-            error: "Ha habido un error al conectar con el servidor"
+            error: "Error while trying to connect to server"
         }
     }
 }
