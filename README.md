@@ -39,3 +39,7 @@ yarn build
 * Bulma (https://bulma.io)
 * Buefy (https://buefy.org)
 * Spinkit (https://tobiasahlin.com/spinkit)
+
+# TODO
+
+* Fix multiple servers (need to refresh to apply changes)

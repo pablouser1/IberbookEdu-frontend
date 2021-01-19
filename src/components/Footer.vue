@@ -18,6 +18,7 @@
 <template>
   <footer class="footer">
     <div class="content has-text-centered">
+      <p>IberbookEdu Version: {{app_version}}</p>
       <p>
         <b-dropdown aria-role="list">
           <button class="button is-primary" slot="trigger" slot-scope="{ active }">
@@ -41,14 +42,14 @@
 <script>
 export default {
   name: "Footer",
+  data() {
+    return {
+      app_version: process.env.VUE_APP_VERSION
+    }
+  },
   methods: {
     changelang: function(lang) {
-      if (lang === "fr") {
-        this.$buefy.toast.open("This language is not supported yet")
-      }
-      else {
-        this.$root.$i18n.locale = lang
-      }
+      this.$root.$i18n.locale = lang
     }
   }
 }

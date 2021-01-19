@@ -23,6 +23,7 @@
             <b-icon icon="server" size="is-small"></b-icon>
             <span>{{ $t("title") }}</span>
           </p>
+          <p class="panel-tabs">Active server: {{ servers.active }}</p>
           <div class="panel-block">
             <p class="control has-icons-left">
               <input v-model="searchServer" class="input" type="text" :placeholder="$t('search')">
@@ -85,6 +86,8 @@ export default {
       this.$store.commit('setActiveServer', server)
       localStorage.servers = JSON.stringify(this.servers)
       this.$buefy.toast.open('Servidor activo modificado')
+      // Logout
+      this.$router.push("/logout")
     },
     deleteServer: async function() {
       if (this.servers.list.length === 1) {

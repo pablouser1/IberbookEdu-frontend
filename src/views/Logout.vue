@@ -11,10 +11,8 @@ export default {
     mounted: async function() {
         if (localStorage.loggedin) {
             await logout()
-            const type = localStorage.loggedin
-            const resetuserinfo = null
             this.$store.commit("setLoggedin", false)
-            this.$store.commit('setUserinfo', {type, resetuserinfo})
+            this.$store.commit('setUserinfo', null)
             localStorage.removeItem("loggedin")
             localStorage.removeItem("userinfo")
         }
