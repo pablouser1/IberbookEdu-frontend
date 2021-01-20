@@ -9,7 +9,8 @@
             "video": "Add video",
             "quote": "Quote",
             "link": "Link",
-            "send": "Send"
+            "send": "Send",
+            "processed": "Your data has been processed successfully"
         }
     },
     "es": {
@@ -21,7 +22,8 @@
             "video": "Agregar vídeo",
             "quote": "Cita",
             "link": "Enlace",
-            "send": "Enviar"
+            "send": "Enviar",
+            "processed": "Tus datos se han procesado con éxito"
         }
     }
 }
@@ -134,7 +136,7 @@ export default {
                 this.uploads = await getUserUploads()
                 this.$buefy.toast.open({
                     duration: 3000,
-                    message: `Los datos se han procesado con éxito`,
+                    message: this.$t("upload.processed"),
                     position: 'is-bottom',
                     type: 'is-success'
                 })

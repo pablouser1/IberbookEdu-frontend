@@ -91,6 +91,11 @@ export default {
                 this.$store.commit('setUserinfo', userinfo)
                 localStorage.loggedin = type
                 localStorage.userinfo = JSON.stringify(userinfo)
+                if (logindata.data.guardianinfo) {
+                    const guardianinfo = logindata.data.guardianinfo
+                    this.$store.commit('setGuardianinfo', guardianinfo)
+                    localStorage.guardianinfo = JSON.stringify(guardianinfo)
+                }
                 this.loggingIn = false
                 this.$router.push("/")
             }

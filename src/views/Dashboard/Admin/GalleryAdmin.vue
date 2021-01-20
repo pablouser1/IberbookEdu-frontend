@@ -6,7 +6,9 @@
         "draghere": "Drag {type} here or click to upload",
         "description": "Description of the {type}",
         "overwrite": "Overwrite",
-        "send": "Send"
+        "send": "Send",
+        "error": "Error when uploading",
+        "success": "Uploading successfully"
     },
     "es": {
         "photos": "las fotos",
@@ -14,7 +16,9 @@
         "draghere": "Arrastra {type} aquí o haz click para subir",
         "description": "Descripción de {type}",
         "overwrite": "Sobrescribir",
-        "send": "Enviar"
+        "send": "Enviar",
+        "error": "Error al subir",
+        "success": "Subido con éxito"
     }
 }
 </i18n>
@@ -121,10 +125,10 @@ export default {
         sendGallery: function() {
             const newGallery = uploadGallery(this.files, this.overwrite, this.photos_descriptions, this.videos_descriptions)
             if (newGallery.code !== "C") {
-                this.$buefy.toast.open("Error al subir")
+                this.$buefy.toast.open(this.$t("error"))
             }
             else {
-                this.$buefy.toast.open("Subido con éxito")
+                this.$buefy.toast.open(this.$t("success"))
             }
         }
     }

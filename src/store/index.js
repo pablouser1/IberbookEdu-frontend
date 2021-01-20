@@ -11,7 +11,8 @@ export default new Vuex.Store({
       list: []
     },
     loggedin: false,
-    userinfo: {}
+    userinfo: {},
+    guardianinfo: {}
   },
   mutations: {
     // put sychronous functions for changing state e.g. add, edit, delete
@@ -36,6 +37,9 @@ export default new Vuex.Store({
     },
     setUserinfo: function (state, userinfo) {
       state.userinfo = userinfo
+    },
+    setGuardianinfo: function(state, guardianinfo) {
+      state.guardianinfo = guardianinfo
     }
   },
   actions: {

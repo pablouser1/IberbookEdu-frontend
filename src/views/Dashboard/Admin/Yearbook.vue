@@ -25,7 +25,15 @@
             "yearbook": "Tu orla",
             "date": "Generada el {date}",
             "see": "Ver orla",
-            "delete": "Eliminar orla"
+            "delete": "Eliminar orla",
+            "deleted": "Orla eliminada con éxito",
+            "success": "Orla generada con éxito",
+            "error": "Ha habido un error al subir la orla"
+        },
+        "delete": {
+            "action": "Eliminar orla",
+            "deleted": "Eliminada con éxito",
+            "error": "Ha habido un error al eliminar la orla"
         }
     }
 }
@@ -42,7 +50,7 @@
             </i18n>
             <div class='buttons'>
                 <router-link class="button is-success" to="/yearbooks" tag="button">{{ $t("generated.see") }}</router-link>
-                <b-button @click="deleteYearbook" type="is-danger">{{ $t("generated.delete") }}</b-button>
+                <b-button @click="deleteYearbook" type="is-danger">{{ $t("delete.action") }}</b-button>
             </div>
         </div>
         <div v-else>
@@ -91,13 +99,13 @@ export default {
             this.generating = true
             const newYearbook = await uploadYearbook(this.chosenTheme, this.banner)
             if (newYearbook.code === "C") {
-                this.$buefy.toast.open("Orla generada con éxito")
+                this.$buefy.toast.open(this.$t("generated.success"))
                 this.yearbook = await getYearbook()
             }
             else {
                 this.$buefy.toast.open({
                     duration: 3000,
-                    message: `Ha habido un error al subir la orla, ${newYearbook.error}`,
+                    message: `${this.$t("generated.error")}, ${newYearbook.error}`,
                     position: 'is-bottom',
                     type: 'is-success'
                 })
@@ -107,13 +115,13 @@ export default {
         deleteYearbook: async function() {
             const delYearbook = await deleteYearbook()
             if (delYearbook.code === "C") {
-                this.$buefy.toast.open("Orla eliminada con éxito")
+                this.$buefy.toast.open(this.$t("generated.deleted"))
                 this.yearbook = await getYearbook()
             }
             else {
                 this.$buefy.toast.open({
                     duration: 3000,
-                    message: `Ha habido un error al eliminar la orla, ${delYearbook.error}`,
+                    message: `${this.$t("delete.error")}, ${delYearbook.error}`,
                     position: 'is-bottom',
                     type: 'is-success'
                 })

@@ -5,14 +5,16 @@
       "title": "Welcome to IberbookEdu",
       "subtitle": "Generate yearbooks easily"
     },
-    "about": "More info"
+    "about": "More info",
+    "bannerinfo": "Photo from {schoolyear}'s yearbook, {acyear}"
   },
   "es": {
     "welcome": {
       "title": "Bienvenido a IberbookEdu",
       "subtitle": "Genera tus orlas fácilmente"
     },
-    "about": "Más información"
+    "about": "Más información",
+    "bannerinfo": "Foto sacada de la orla del grupo {schoolyear}, curso académico {acyear}"
   }
 }
 </i18n>
@@ -27,7 +29,14 @@
           <b-icon icon="information"></b-icon>
           <span>{{ $t("about") }}</span>
         </router-link>
-        <p v-if="banner">Foto sacada de la orla del grupo {{banner.schoolyear}}, curso académico {{ banner.acyear }}</p>
+        <i18n v-if="banner" path="bannerinfo" tag="p">
+          <template v-slot:schoolyear>
+            <span>{{ banner.schoolyear }}</span>
+          </template>
+          <template v-slot:acyear>
+            <span>{{ banner.acyear }}</span>
+          </template>
+        </i18n>
       </div>
     </div>
   </section>
@@ -48,7 +57,7 @@ export default {
     }
   },
   created: async function() {
-    let banner = await getBanner()
+    const banner = await getBanner()
     if (banner.code === "C") {
       this.banner = banner.data
       document.getElementById("menu-hero").style.backgroundImage = `url('${this.baseurl}/${this.banner.url}')`

@@ -11,12 +11,21 @@ export default {
     mounted: async function() {
         if (localStorage.loggedin) {
             await logout()
+            if (this.guardianinfo) {
+                this.$store.commit('setGuardianinfo', null)
+                localStorage.removeItem("guardianinfo")
+            }
             this.$store.commit("setLoggedin", false)
             this.$store.commit('setUserinfo', null)
             localStorage.removeItem("loggedin")
             localStorage.removeItem("userinfo")
         }
         this.$router.push("/")
+    },
+    computed: {
+        guardianinfo() {
+            return this.$store.state.guardianinfo;
+        }
     }
 }
 </script>

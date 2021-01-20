@@ -62,6 +62,10 @@ export default {
       const userinfo = JSON.parse(localStorage.userinfo)
       this.$store.commit('setUserinfo', userinfo)
       this.$store.commit('setLoggedin', localStorage.loggedin)
+      if (localStorage.guardianinfo) {
+        const guardianinfo = JSON.parse(localStorage.guardianinfo)
+        this.$store.commit('setGuardianinfo', guardianinfo)
+      }
     }
   }
 }
