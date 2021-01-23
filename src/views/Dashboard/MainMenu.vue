@@ -39,7 +39,7 @@
     <div class="container">
         <p class="title">{{ $t("userinfo") }}:</p>
         <p>{{ $t("rank") }}: {{ userinfo.rank }}</p>
-        <p>{{ $t("group") }}: {{ userinfo.year }}</p>
+        <p>{{ $t("group") }}: {{ profileinfo.year }}</p>
         <div v-if="yearbook">
             <hr>
             <section class="hero is-success is-medium">
@@ -92,6 +92,9 @@ export default {
     computed: {
         userinfo() {
             return this.$store.state.userinfo;
+        },
+        profileinfo() {
+            return this.$store.state.profileinfo;
         }
     }
 }

@@ -57,7 +57,7 @@
     <section>
         <i18n class="title has-text-centered" path="users" tag="p">
             <template v-slot:group>
-                <span>{{ userinfo.year }}</span>
+                <span>{{ profileinfo.year }}</span>
             </template>
         </i18n>
         <b-table
@@ -150,8 +150,8 @@ export default {
         this.groupdata = await getGroupData()
     },
     computed: {
-        userinfo: function() {
-            return this.$store.state.userinfo;
+        profileinfo: function() {
+            return this.$store.state.profileinfo;
         }
     }
 }

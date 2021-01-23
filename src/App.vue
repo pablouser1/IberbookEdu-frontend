@@ -43,15 +43,13 @@ export default {
           this.$store.commit("setUserinfo", null);
           localStorage.removeItem("loggedin");
           localStorage.removeItem("userinfo");
-          this.$buefy.toast.open(
-            "Tu sesión ha caducado, inicie sesión otra vez"
-          );
+          this.$buefy.toast.open("Your session has expired");
         }
       } else {
         // Set server config
         this.$buefy.toast.open({
           duration: 5000,
-          message: `Ha habido un error al contactar con el servidor remoto`,
+          message: `Error when connecting to remote server`,
           position: "is-bottom",
           type: "is-danger",
         });
@@ -63,9 +61,12 @@ export default {
       const userinfo = JSON.parse(localStorage.userinfo);
       this.$store.commit("setUserinfo", userinfo);
       this.$store.commit("setLoggedin", localStorage.loggedin);
-      if (localStorage.guardianinfo) {
-        const guardianinfo = JSON.parse(localStorage.guardianinfo);
-        this.$store.commit("setGuardianinfo", guardianinfo);
+      if (localStorage.profileinfo) {
+        const profileinfo = JSON.parse(localStorage.profileinfo);
+        this.$store.commit("setProfileinfo", profileinfo);
+      }
+      else {
+        this.$router.push("/profile")
       }
     }
   },

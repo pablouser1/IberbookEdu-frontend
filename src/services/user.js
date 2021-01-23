@@ -1,8 +1,16 @@
 import { requests } from "./api.js"
 
+export async function setProfile(schoolindex, groupindex) {
+    let formData = new FormData();
+    formData.append("schoolindex", schoolindex)
+    formData.append("groupindex", groupindex)
+    const res = await requests("profiles.php?action=set", "POST", formData)
+    return res
+}
+
 // Get uploads of user
-export async function getUserUploads() {
-    const res = await requests("users/getuserinfo.php", "GET", null)
+export async function getProfileUploads() {
+    const res = await requests("users/getprofileinfo.php", "GET", null)
     return res.data
 }
 

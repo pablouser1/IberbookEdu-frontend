@@ -5,8 +5,8 @@
         "link": "Open link",
         "upload": {
             "add": "Upload/Replace data",
-            "photo": "Add photo",
-            "video": "Add video",
+            "photo": "Photo",
+            "video": "Video",
             "quote": "Quote",
             "link": "Link",
             "send": "Send",
@@ -18,8 +18,8 @@
         "link": "Abrir enlace",
         "upload": {
             "add": "Subir/Reemplazar datos",
-            "photo": "Agregar foto",
-            "video": "Agregar vídeo",
+            "photo": "Foto",
+            "video": "Vídeo",
             "quote": "Cita",
             "link": "Enlace",
             "send": "Enviar",
@@ -38,11 +38,11 @@
         <div v-if="uploads">
             <div class="columns is-centered is-vcentered">
                 <div v-if="uploads.photo" class="column is-one-quarter-desktop">
-                    <b-image :src="baseurl + '/users/getmedia.php?id=' + user.id + '&media=photo'"></b-image>
+                    <b-image :src="baseurl + '/users/getmedia.php?id=' + profileinfo.id + '&media=photo'"></b-image>
                 </div>
                 <div v-if="uploads.video" class="column is-one-quarter-desktop">
                     <video controls preload="metadata">
-                        <source :src="baseurl + '/users/getmedia.php?id=' + user.id + '&media=video'">
+                        <source :src="baseurl + '/users/getmedia.php?id=' + profileinfo.id + '&media=video'">
                     </video>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                     <div class="notepaper">
                         <figure class="quote">
                             <blockquote v-html="uploads.quote" class="curly-quotes"></blockquote>
-                            <figcaption class="quote-by">— {{ user.name }}</figcaption>
+                            <figcaption class="quote-by">— {{ userinfo.name }}</figcaption>
                         </figure>
                     </div>
                     <b-button :v-if="uploads.link" type="is-info" tag="a" :href="uploads.link" target="_blank">{{ $t("link") }}</b-button>
@@ -108,7 +108,7 @@
 <script>
 import Loading from "@/components/Loading.vue"
 import { BASE_URL } from "@/services/config.js"
-import { getUserUploads, handleUpload } from "@/services/user.js"
+import { getProfileUploads, handleUpload } from "@/services/user.js"
 export default {
     name: "Uploads",
     components: { Loading },
@@ -126,14 +126,14 @@ export default {
         }
     },
     created: async function () {
-        this.uploads = await getUserUploads()
+        this.uploads = await getProfileUploads()
     },
     methods: {
         uploadFiles: async function() {
             this.isUploading = true
             const res = await handleUpload(this.input)
             if (res.code === "C") {
-                this.uploads = await getUserUploads()
+                this.uploads = await getProfileUploads()
                 this.$buefy.toast.open({
                     duration: 3000,
                     message: this.$t("upload.processed"),
@@ -145,8 +145,11 @@ export default {
         }
     },
     computed: {
-        user: function() {
+        userinfo: function() {
             return this.$store.state.userinfo
+        },
+        profileinfo: function() {
+            return this.$store.state.profileinfo
         }
     }
 }

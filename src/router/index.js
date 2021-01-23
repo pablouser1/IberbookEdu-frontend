@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Config from '../views/Config.vue'
 import About from '../views/About.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -31,7 +32,12 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
+    component: Login
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue'),
   },
   {
     path: '/logout',
@@ -87,6 +93,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   switch (to.path) {
     case "/dashboard/":
+    case "/profile":
       if (!localStorage.loggedin) {
         next({name: "Home"})
       }

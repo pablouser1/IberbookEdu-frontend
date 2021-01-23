@@ -36,12 +36,9 @@
 
 <script>
 import Servers from '@/components/Config/Servers.vue'
-import User from '@/components/Config/User.vue'
 export default {
   name: "Config",
-  components: {
-    Servers, User
-  },
+  components: {Servers},
   data: function() {
     return {
       hardcorded_url: process.env.VUE_APP_SERVER
