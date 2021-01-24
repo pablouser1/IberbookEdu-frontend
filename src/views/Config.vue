@@ -2,10 +2,14 @@
 {
   "en": {
     "config": "Config",
+    "servers": "Servers",
+    "user": "User",
     "noconfig": "No config available"
   },
   "es": {
     "config": "Configuración",
+    "servers": "Servidores",
+    "user": "Usuario",
     "noconfig": "No hay ninguna configuración disponible"
   }
 }
@@ -21,10 +25,10 @@
       </div>
     </section>
     <b-tabs position="is-centered" class="block">
-      <b-tab-item v-if="!hardcorded_url" label="Servidores">
+      <b-tab-item v-if="!hardcorded_url" :label="$t('servers')">
         <Servers></Servers>
       </b-tab-item>
-      <b-tab-item v-if="loggedin" label="Usuario">
+      <b-tab-item v-if="loggedin" :label="$t('user')">
         <User></User>
       </b-tab-item>
     </b-tabs>
@@ -36,9 +40,10 @@
 
 <script>
 import Servers from '@/components/Config/Servers.vue'
+import User from '@/components/Config/User.vue'
 export default {
   name: "Config",
-  components: {Servers},
+  components: {Servers, User},
   data: function() {
     return {
       hardcorded_url: process.env.VUE_APP_SERVER

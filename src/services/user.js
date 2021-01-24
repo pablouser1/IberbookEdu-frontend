@@ -4,31 +4,24 @@ export async function setProfile(schoolindex, groupindex) {
     let formData = new FormData();
     formData.append("schoolindex", schoolindex)
     formData.append("groupindex", groupindex)
-    const res = await requests("profiles.php?action=set", "POST", formData)
+    const res = await requests("manageProfiles.php?action=set", "POST", formData)
     return res
 }
 
 // Get uploads of user
 export async function getProfileUploads() {
-    const res = await requests("users/getprofileinfo.php", "GET", null)
+    const res = await requests("users/getProfile.php", "GET", null)
     return res.data
 }
 
 export async function getGroupData() {
-    const res = await requests("users/getgroupinfo.php", "GET", null)
+    const res = await requests("users/getGroup.php", "GET", null)
     return res.data
 }
 
-export async function setNewInfo(schoolid, group) {
-    let formData = new FormData();
-    formData.append("schoolid", schoolid)
-    formData.append("group", group)
-    const res = await requests("setnewinfo.php", "POST", formData)
-    return res
-}
 // Get gallery from group
 export async function getGroupGallery() {
-    const res = await requests("gallery/getgallery.php", "GET", null)
+    const res = await requests("gallery/getGallery.php", "GET", null)
     return res.data
 }
 
@@ -51,6 +44,6 @@ export async function setVote(id) {
 }
 
 export async function getYearbook() {
-    const res = await requests("yearbooks.php?mode=user", "GET", null)
+    const res = await requests("getYearbooks.php?mode=user", "GET", null)
     return res.data
 }

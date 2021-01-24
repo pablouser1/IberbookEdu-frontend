@@ -23,18 +23,23 @@ export async function logout() {
 
 // Get yearbooks
 export async function getYearbooks(offset, sort) {
-    const res = await requests(`yearbooks.php?offset=${offset}&sort=${sort}`, "GET", null)
+    const res = await requests(`getYearbooks.php?offset=${offset}&sort=${sort}`, "GET", null)
     return res
 }
 
 // Get individual yearbook
 export async function getYearbook(id) {
-    const res = await requests(`yearbooks.php?id=${id}`, "GET", null)
+    const res = await requests(`getYearbooks.php?mode=id&id=${id}`, "GET", null)
+    return res.data
+}
+
+export async function getThemes() {
+    const res = await requests("themes/getThemes.php", "GET", null)
     return res.data
 }
 
 // Get random banner from yearbook
 export async function getBanner() {
-    const res = await requests("getbanner.php", "GET", null)
+    const res = await requests("getBanner.php", "GET", null)
     return res
 }

@@ -16,9 +16,9 @@
         </p>
         <div class="columns is-centered is-vcentered">
             <div v-for="item in gallery" v-bind:key="item.id" class="column is-one-quarter-desktop">
-                <b-image v-if="item.type === 'picture'" :src="baseurl + '/gallery/getitem.php?id=' + item.id"></b-image>
+                <b-image v-if="item.type === 'picture'" :src="baseurl + '/gallery/getItem.php?id=' + item.id"></b-image>
                 <video controls v-else>
-                    <source :src="baseurl + '/gallery/getitem.php?id=' + item.id">
+                    <source :src="baseurl + '/gallery/getItem.php?id=' + item.id">
                 </video>
                 <figcaption>{{ item.description }}</figcaption>
             </div>

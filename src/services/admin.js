@@ -19,11 +19,6 @@ export async function uploadGallery(files, overwrite, photos_descriptions, video
     return res.data
 }
 
-export async function getThemes() {
-    const res = await requests("admins/yearbooks/getThemes.php", "GET", null)
-    return res.data
-}
-
 export async function uploadYearbook(theme, banner) {
     let formData = new FormData();
     formData.append("theme", theme)

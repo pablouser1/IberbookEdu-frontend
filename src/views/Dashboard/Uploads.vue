@@ -38,11 +38,11 @@
         <div v-if="uploads">
             <div class="columns is-centered is-vcentered">
                 <div v-if="uploads.photo" class="column is-one-quarter-desktop">
-                    <b-image :src="baseurl + '/users/getmedia.php?id=' + profileinfo.id + '&media=photo'"></b-image>
+                    <b-image :src="baseurl + '/users/getMedia.php?id=' + profileinfo.id + '&media=photo'"></b-image>
                 </div>
                 <div v-if="uploads.video" class="column is-one-quarter-desktop">
                     <video controls preload="metadata">
-                        <source :src="baseurl + '/users/getmedia.php?id=' + profileinfo.id + '&media=video'">
+                        <source :src="baseurl + '/users/getMedia.php?id=' + profileinfo.id + '&media=video'">
                     </video>
                 </div>
             </div>
@@ -125,7 +125,7 @@ export default {
             isUploading: false
         }
     },
-    created: async function () {
+    mounted: async function() {
         this.uploads = await getProfileUploads()
     },
     methods: {

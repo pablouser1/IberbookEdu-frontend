@@ -57,7 +57,7 @@
             <p class="title">{{ $t("create.manage") }}</p>
             <b-field :label="$t('create.template')">
                 <b-select v-if="themes" v-model="chosenTheme">
-                    <option v-for="(theme, index) in themes" :key="index">{{theme}}</option>
+                    <option v-for="theme in themes" :key="theme.id" :value="theme.id">{{theme.name}} - {{ theme.description }}</option>
                 </b-select>
             </b-field>
             <b-field class="file is-primary" :class="{'has-name': !!banner}">
@@ -78,7 +78,8 @@
 
 <script>
 import { getYearbook } from "@/services/user.js"
-import { getThemes, uploadYearbook, deleteYearbook } from "@/services/admin.js"
+import { getThemes } from "@/services/common.js"
+import { uploadYearbook, deleteYearbook } from "@/services/admin.js"
 export default {
     name: "Yearbook",
     data() {
