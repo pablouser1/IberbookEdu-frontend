@@ -37,7 +37,7 @@ export default {
       return server
     }
   },
-  beforeCreate: async function () {
+  created: async function () {
     const server = this.getServer()
     // Ping server
     if (server) {
