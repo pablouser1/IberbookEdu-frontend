@@ -4,6 +4,10 @@ import Home from '../views/Home.vue'
 import Config from '../views/Config.vue'
 import About from '../views/About.vue'
 import Login from '../views/Login.vue'
+import Logout from '../views/Logout.vue'
+import Profile from '../views/Profile.vue'
+import Yearbooks from '../views/Yearbooks.vue'
+import Yearbook from '../views/Yearbook.vue'
 
 Vue.use(VueRouter)
 
@@ -19,14 +23,19 @@ const routes = [
     component: Config
   },
   {
+    path: '/setup',
+    name: 'Setup',
+    component: () => import(/* webpackChunkName: "setup" */ '../views/Setup.vue')
+  },
+  {
     path: '/yearbooks',
     name: 'Yearbooks',
-    component: () => import(/* webpackChunkName: "yearbooks" */ '../views/Yearbooks.vue')
+    component: Yearbooks
   },
   {
     path: '/yearbooks/:id',
     name: 'Yearbook',
-    component: () => import(/* webpackChunkName: "yearbook" */ '../views/Yearbook.vue'),
+    component: Yearbook,
     props: true
   },
   {
@@ -37,12 +46,12 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
-    component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue'),
+    component: Profile
   },
   {
     path: '/logout',
     name: 'Logout',
-    component: () => import(/* webpackChunkName: "logout" */ '../views/Logout.vue')
+    component: Logout
   },
   {
     path: '/dashboard',

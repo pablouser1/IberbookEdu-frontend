@@ -10,6 +10,7 @@
             "quote": "Quote",
             "link": "Link",
             "send": "Send",
+            "reset": "Reset",
             "processed": "Your data has been processed successfully"
         }
     },
@@ -23,6 +24,7 @@
             "quote": "Cita",
             "link": "Enlace",
             "send": "Enviar",
+            "reset": "Limpiar",
             "processed": "Tus datos se han procesado con éxito"
         }
     }
@@ -35,7 +37,7 @@
             <b-icon icon="database"></b-icon>
             <span>{{ $t("info") }}</span>
         </p>
-        <div v-if="uploads">
+        <div v-if="uploads && profileinfo.id">
             <div class="columns is-centered is-vcentered">
                 <div v-if="uploads.photo" class="column is-one-quarter-desktop">
                     <b-image :src="baseurl + '/users/getMedia.php?id=' + profileinfo.id + '&media=photo'"></b-image>
@@ -54,7 +56,7 @@
                             <figcaption class="quote-by">— {{ userinfo.name }}</figcaption>
                         </figure>
                     </div>
-                    <b-button :v-if="uploads.link" type="is-info" tag="a" :href="uploads.link" target="_blank">{{ $t("link") }}</b-button>
+                    <b-button :v-if="uploads.link" type="is-info" tag="a" :href="uploads.link" target="_blank" icon-left="link">{{ $t("link") }}</b-button>
                 </div>
             </div>
         </div>
@@ -95,12 +97,15 @@
                 </div>
             </div>
             <b-field position="is-centered" :label="$t('upload.quote')">
-                <b-input v-model="input.quote" placeholder="Hello, this is an example" maxlength="200" type="textarea"></b-input>
+                <b-input v-model="input.quote" placeholder="Hello, this is an example" maxlength="70" type="textarea"></b-input>
             </b-field>
             <b-field position="is-centered" :label="$t('link')">
-                <b-input v-model="input.link" placeholder="https://github.com/pablouser1/IberbookEdu"></b-input>
+                <b-input v-model="input.link" placeholder="https://github.com/pablouser1/IberbookEdu-frontend"></b-input>
             </b-field>
-            <b-button :loading="isUploading" @click="uploadFiles">{{ $t("upload.send") }}</b-button>
+            <div class="buttons">
+                <b-button type="is-success" icon-left="send" :loading="isUploading" @click="uploadFiles">{{ $t("upload.send") }}</b-button>
+                <b-button type="is-danger" icon-left="close" @click="resetInput">{{ $t("upload.reset") }}</b-button>
+            </div>
         </div>
     </div>
 </template>
@@ -141,7 +146,14 @@ export default {
                     type: 'is-success'
                 })
             }
+            this.resetInput()
             this.isUploading = false
+        },
+        resetInput: function() {
+            this.input.photo = null
+            this.input.video = null
+            this.input.quote = null
+            this.input.link = null
         }
     },
     computed: {

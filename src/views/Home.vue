@@ -25,9 +25,11 @@
       <div class="box">
         <h1 class="title">{{ $t("welcome.title") }}</h1>
         <h2 class="subtitle">{{ $t("welcome.subtitle") }}</h2>
-        <router-link class="button is-info" to="/about" tag="button">
-          <b-icon icon="information"></b-icon>
-          <span>{{ $t("about") }}</span>
+        <router-link class="button is-info" to="/about" custom v-slot="{ navigate }">
+          <span>
+            <b-icon icon="information"></b-icon>
+            <span @click="navigate" @keypress.enter="navigate" role="link">{{ $t("about") }}</span>
+          </span>
         </router-link>
         <i18n v-if="banner" path="bannerinfo" tag="p">
           <template v-slot:schoolyear>

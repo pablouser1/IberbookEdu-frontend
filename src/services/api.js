@@ -10,8 +10,8 @@ const instance = axios.create({
 export async function requests(url, method, data) {
     try {
         const res = await instance({
-            method: method,
             url: url,
+            method: method,
             data: data
         })
         return res.data

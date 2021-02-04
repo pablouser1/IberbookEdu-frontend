@@ -22,7 +22,7 @@
             "video": "Video",
             "link": "Link",
             "quote": "Quote",
-            "send": "Send"
+            "send": "Delete"
         }
     },
     "es": {
@@ -47,7 +47,7 @@
             "video": "Vídeo",
             "link": "Enlace",
             "quote": "Cita",
-            "send": "Enviar"
+            "send": "Eliminar"
         }
     }
 }
@@ -102,11 +102,11 @@
             <template slot="detail" slot-scope="props">
                 <div class="columns is-centered is-vcentered">
                     <div v-if="props.row.photo" class="column is-one-quarter-desktop">
-                        <b-image :src="baseurl + '/users/getmedia.php?id=' + props.row.id + '&media=photo'"></b-image>
+                        <b-image :src="baseurl + '/users/getMedia.php?id=' + props.row.id + '&media=photo'"></b-image>
                     </div>
                     <div v-if="props.row.video" class="column is-one-quarter-desktop">
                         <video controls>
-                            <source :src="baseurl + '/users/getmedia.php?id=' + props.row.id + '&media=video'">
+                            <source :src="baseurl + '/users/getMedia.php?id=' + props.row.id + '&media=video'">
                         </video>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                         <option value="quote">{{ $t("manage.quote") }}</option>
                     </b-select>
                 </b-field>
-                <b-button>{{ $t("manage.send") }}</b-button>
+                <b-button @click="deleteItems" type="is-danger" icon-left="delete">{{ $t("manage.send") }}</b-button>
             </div>
         </div>
     </section>
@@ -135,18 +135,40 @@
 <script>
 import { BASE_URL } from "@/services/config.js"
 import { getGroupData } from "@/services/user.js"
+import { deleteUserItems } from "@/services/admin.js"
 export default {
     name: "GroupUploads",
+    methods: {
+        deleteItems: async function() {
+            const res = await deleteUserItems(this.selected.id, this.deletedElements);
+            if (res.code === "C") {
+                this.$buefy.toast.open({
+                    duration: 3000,
+                    message: "Deleted successfully",
+                    position: 'is-bottom',
+                    type: 'is-danger'
+                })
+            }
+            else {
+                this.$buefy.toast.open({
+                    duration: 3000,
+                    message: res.error,
+                    position: 'is-bottom',
+                    type: 'is-danger'
+                })
+            }
+            this.groupdata = await getGroupData()
+        }
+    },
     data() {
         return {
             baseurl: BASE_URL,
             groupdata: [],
             selected: null,
-            deletedElements: null,
-            reason: ""
+            deletedElements: []
         }
     },
-    created: async function() {
+    mounted: async function() {
         this.groupdata = await getGroupData()
     },
     computed: {

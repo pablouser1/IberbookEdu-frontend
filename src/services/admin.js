@@ -1,19 +1,29 @@
 import { requests } from "./api.js"
 
+export async function deleteUserItems(id, deletedItems) {
+    let formData = new FormData();
+    formData.append("id", id)
+    for (let i = 0; i<deletedItems.length; i++) {
+        formData.append("elements[]", deletedItems[i])
+    }
+    const res = await requests("admins/deleteItems.php", "POST", formData)
+    return res
+}
+
 export async function uploadGallery(files, overwrite, photos_descriptions, videos_descriptions) {
     let formData = new FormData();
     formData.append("overwrite", overwrite)
     for (let i = 0; i<files.photos.length; i++) {
         formData.append("photos[]", files.photos[i])
+        if (photos_descriptions[i]) {
+            formData.append(`photos_descriptions[${i}]`, photos_descriptions[i])
+        }
     }
     for (let i = 0; i<files.videos.length; i++) {
         formData.append("videos[]", files.videos[i])
-    }
-    for (let i = 0; i<photos_descriptions.length; i++) {
-        formData.append("photos_descriptions[]", photos_descriptions[i])
-    }
-    for (let i = 0; i<videos_descriptions.length; i++) {
-        formData.append("videos_descriptions[]", videos_descriptions[i])
+        if (videos_descriptions[i]) {
+            formData.append(`videos_descriptions[${i}]`, videos_descriptions[i])
+        }
     }
     const res = await requests("gallery/upload.php", "POST", formData)
     return res.data

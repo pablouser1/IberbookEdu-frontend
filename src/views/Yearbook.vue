@@ -4,7 +4,7 @@
     "yearbook": "Yearbook",
     "see": "See yearbook",
     "votes": "No votes | One vote | {n} votes",
-    "zip": "Download zip",
+    "download": "Download",
     "vote": "Vote",
     "voteregistered": "Vote registered successfully",
     "link": "Copy link",
@@ -15,7 +15,7 @@
     "yearbook": "Orla",
     "see": "Ver orla",
     "votes": "No hay votos | Un voto | {n} votos",
-    "zip": "Descargar zip",
+    "download": "Descargar",
     "vote": "Votar",
     "voteregistered": "Voto registrado con éxito",
     "link": "Copiar enlace",
@@ -43,7 +43,7 @@
                 </div>
                 <!-- Opciones básicas -->
                 <div class="buttons is-centered">
-                    <b-button tag="a" type="is-link" target="_blank" icon-left="zip-box" :href="baseurl + yearbook.url + '/yearbook.zip'">{{ $t("zip") }}</b-button>
+                    <b-button tag="a" type="is-link" icon-left="download" :href="baseurl + yearbook.url + '/yearbook.zip'">{{ $t("download") }}</b-button>
                     <button @click="vote(yearbook.id)" class="button is-primary">
                         <b-icon icon="ballot"></b-icon>
                         <span>{{ $t("vote") }}</span>

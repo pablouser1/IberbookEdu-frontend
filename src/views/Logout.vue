@@ -13,8 +13,10 @@ export default {
             await logout()
             this.$store.commit("setLoggedin", false)
             this.$store.commit('setUserinfo', null)
+            this.$store.commit('setProfileinfo', null)
             localStorage.removeItem("loggedin")
             localStorage.removeItem("userinfo")
+            localStorage.removeItem("profileinfo")
         }
         this.$router.push("/")
     }

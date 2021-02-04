@@ -20,6 +20,7 @@
   }
 }
 </i18n>
+
 <template>
   <b-navbar>
     <template slot="brand">

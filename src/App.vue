@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Navbar></Navbar>
+    <Navbar v-if="showMisc"></Navbar>
     <router-view />
-    <Footer></Footer>
+    <Footer v-if="showMisc"></Footer>
   </div>
 </template>
 
@@ -17,22 +17,28 @@ export default {
     Navbar,
     Footer
   },
-  beforeCreate: async function () {
-    // Initial setup
-    let server;
-    // Check if URL is hardcoded in .env
-    if (!hasPredifinedURL()) {
-      // Did user already finished the setup?
-      if (!localStorage.servers || !this.$store.state.servers) {
-        this.$router.push("/config");
-      } else {
-        this.$store.commit("setServers", JSON.parse(localStorage.servers));
-        server = this.$store.state.servers.active;
+  methods: {
+    getServer: function() {
+      let server = null
+      // Check if URL is hardcoded in .env
+      if (!hasPredifinedURL()) {
+        // Did user already finished the setup?
+        if (!localStorage.servers || !this.$store.state.servers) {
+          this.$router.push("/setup");
+        }
+        else {
+          this.$store.commit("setServers", JSON.parse(localStorage.servers));
+          server = this.$store.state.servers.active;
+        }
       }
-    } else {
-      server = process.env.VUE_APP_SERVER;
+      else {
+        server = process.env.VUE_APP_SERVER;
+      }
+      return server
     }
-
+  },
+  beforeCreate: async function () {
+    const server = this.getServer()
     // Ping server
     if (server) {
       const serverinfo = await startup(server);
@@ -45,7 +51,8 @@ export default {
           localStorage.removeItem("userinfo");
           this.$buefy.toast.open("Your session has expired");
         }
-      } else {
+      }
+      else {
         // Set server config
         this.$buefy.toast.open({
           duration: 5000,
@@ -70,6 +77,11 @@ export default {
       }
     }
   },
+  computed: {
+    showMisc() {
+      return this.$route.name !== "Setup";
+    }
+  }
 };
 </script>
 

@@ -49,7 +49,9 @@
                 </template>
             </i18n>
             <div class='buttons'>
-                <router-link class="button is-success" to="/yearbooks" tag="button">{{ $t("generated.see") }}</router-link>
+                <router-link class="button is-success" :to="'/yearbooks/' + yearbook.id" custom v-slot="{ navigate }">
+                    <span @click="navigate" @keypress.enter="navigate" role="link">{{ $t("generated.see") }}</span>
+                </router-link>
                 <b-button @click="deleteYearbook" type="is-danger">{{ $t("delete.action") }}</b-button>
             </div>
         </div>
@@ -124,7 +126,7 @@ export default {
                     duration: 3000,
                     message: `${this.$t("delete.error")}, ${delYearbook.error}`,
                     position: 'is-bottom',
-                    type: 'is-success'
+                    type: 'is-danger'
                 })
             }
         }

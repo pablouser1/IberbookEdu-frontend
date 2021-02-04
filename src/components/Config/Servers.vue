@@ -76,7 +76,7 @@ export default {
       else {
         this.$buefy.toast.open({
           duration: 5000,
-          message: `Ha habido un error al contactar con el servidor remoto`,
+          message: "Error while connecting to remote server",
           position: 'is-bottom',
           type: 'is-danger'
         })
@@ -85,13 +85,13 @@ export default {
     setActiveServer: async function(server) {
       this.$store.commit('setActiveServer', server)
       localStorage.servers = JSON.stringify(this.servers)
-      this.$buefy.toast.open('Servidor activo modificado')
+      this.$buefy.toast.open('Active server modified')
       // Logout
       this.$router.push("/logout")
     },
     deleteServer: async function() {
       if (this.servers.list.length === 1) {
-        this.$buefy.toast.open("No puedes eliminar todos los servidores de tu lista")
+        this.$buefy.toast.open("You can't delete all your servers")
       }
       else {
         this.$store.commit("removeServer", this.removeServer)
