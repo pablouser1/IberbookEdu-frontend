@@ -38,6 +38,7 @@
             <span>{{ $t("info") }}</span>
         </p>
         <div v-if="uploads && profileinfo.id">
+            <b-loading :is-full-page="true" v-model="isLoading"></b-loading>
             <div class="columns is-centered is-vcentered">
                 <div v-if="uploads.photo" class="column is-one-quarter-desktop">
                     <b-image :src="baseurl + '/users/getMedia.php?id=' + profileinfo.id + '&media=photo'"></b-image>
@@ -60,7 +61,6 @@
                 </div>
             </div>
         </div>
-        <Loading v-else></Loading>
         <hr>
         <!-- Upload More -->
         <p class="title has-text-centered">
@@ -70,27 +70,27 @@
         <div class="container has-text-centered">
             <div class="columns is-mobile is-multiline is-centered is-vcentered">
                 <div class="column is-narrow">
-                    <b-field class="file is-primary" :class="{'has-name': !!input.photo}">
-                        <b-upload accept="image/gif,image/png,image/jpeg" v-model="input.photo" class="file-label">
+                    <b-field class="file is-primary" :class="{'has-name': !!input.media.photo}">
+                        <b-upload accept="image/gif,image/png,image/jpeg" v-model="input.media.photo" class="file-label">
                             <span class="file-cta">
                                 <b-icon class="file-icon" icon="upload"></b-icon>
                                 <span class="file-label">{{ $t("upload.photo") }}</span>
                             </span>
-                            <span class="file-name" v-if="input.photo">
-                                {{ input.photo.name }}
+                            <span class="file-name" v-if="input.media.photo">
+                                {{ input.media.photo.name }}
                             </span>
                         </b-upload>
                     </b-field>
                 </div>
                 <div class="column is-narrow">
-                    <b-field class="file is-primary" :class="{'has-name': !!input.video}">
-                        <b-upload accept="video/mp4,video/webm" v-model="input.video" class="file-label">
+                    <b-field class="file is-primary" :class="{'has-name': !!input.media.video}">
+                        <b-upload accept="video/mp4,video/webm" v-model="input.media.video" class="file-label">
                             <span class="file-cta">
                                 <b-icon class="file-icon" icon="upload"></b-icon>
                                 <span class="file-label">{{ $t("upload.video") }}</span>
                             </span>
-                            <span class="file-name" v-if="input.video">
-                                {{ input.video.name }}
+                            <span class="file-name" v-if="input.media.video">
+                                {{ input.media.video.name }}
                             </span>
                         </b-upload>
                     </b-field>
@@ -103,7 +103,7 @@
                 <b-input v-model="input.link" placeholder="https://github.com/pablouser1/IberbookEdu-frontend"></b-input>
             </b-field>
             <div class="buttons">
-                <b-button type="is-success" icon-left="send" :loading="isUploading" @click="uploadFiles">{{ $t("upload.send") }}</b-button>
+                <b-button type="is-success" icon-left="send" :loading="isLoading" @click="uploadFiles">{{ $t("upload.send") }}</b-button>
                 <b-button type="is-danger" icon-left="close" @click="resetInput">{{ $t("upload.reset") }}</b-button>
             </div>
         </div>
@@ -111,47 +111,62 @@
 </template>
 
 <script>
-import Loading from "@/components/Loading.vue"
 import { BASE_URL } from "@/services/config.js"
-import { getProfileUploads, handleUpload } from "@/services/user.js"
+import { getProfileUploads, handleMediaUpload, handleMiscUpload } from "@/services/user.js"
 export default {
     name: "Uploads",
-    components: { Loading },
     data() {
         return {
             uploads: null,
             baseurl: BASE_URL,
             input: {
-                photo: null,
-                video: null,
+                media: {
+                    photo: null,
+                    video: null
+                },
                 quote: null,
                 link: null
             },
-            isUploading: false
+            isLoading: true
         }
     },
     mounted: async function() {
         this.uploads = await getProfileUploads()
+        this.isLoading = false
     },
     methods: {
         uploadFiles: async function() {
-            this.isUploading = true
-            const res = await handleUpload(this.input)
-            if (res.code === "C") {
-                this.uploads = await getProfileUploads()
-                this.$buefy.toast.open({
-                    duration: 3000,
-                    message: this.$t("upload.processed"),
-                    position: 'is-bottom',
-                    type: 'is-success'
-                })
+            this.isLoading = true
+            if (this.input.media.photo) {
+                const photoRes = await handleMediaUpload(this.input.media.photo, "photo")
+                if (photoRes.code === "C") {
+                    this.$buefy.snackbar.open("Photo uploaded")
+                }
             }
+            if (this.input.media.video) {
+                const videoRes = await handleMediaUpload(this.input.media.video, "video")
+                if (videoRes.code === "C") {
+                    this.$buefy.snackbar.open("Video uploaded")
+                }
+            }
+            if (this.input.quote || this.input.link) {
+                const miscRes = handleMiscUpload({link: this.input.link, quote: this.input.quote})
+                if (miscRes.code === "C") {
+                    this.$buefy.toast.open({
+                        duration: 3000,
+                        message: this.$t("upload.processed"),
+                        position: 'is-bottom',
+                        type: 'is-success'
+                    })
+                }
+            }
+            this.uploads = await getProfileUploads()
             this.resetInput()
-            this.isUploading = false
+            this.isLoading = false
         },
         resetInput: function() {
-            this.input.photo = null
-            this.input.video = null
+            this.input.media.photo = null
+            this.input.media.video = null
             this.input.quote = null
             this.input.link = null
         }

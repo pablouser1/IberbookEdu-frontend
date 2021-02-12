@@ -100,7 +100,7 @@
             </div>
         </div>
         <div class="field">
-            <b-checkbox v-model="overwrite">{{ $t("overwrite") }}</b-checkbox>
+            <b-switch v-model="overwrite">{{ $t("overwrite") }}</b-switch>
         </div>
         <b-button @click="sendGallery">{{ $t("send") }}</b-button>
     </div>

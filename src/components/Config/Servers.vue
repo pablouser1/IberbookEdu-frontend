@@ -32,22 +32,17 @@
               </span>
             </p>
           </div>
-          <a @click="setActiveServer(server)" v-for="(server, index) in filteredServers" v-bind:key="index" class="panel-block">
-            <span>{{ server }}</span>
+          <a v-for="(server, index) in filteredServers" v-bind:key="index" class="panel-block">
+            <p>
+              <span @click="deleteServer(server)" class="delete"></span>
+              <span @click="setActiveServer(server)"> {{ server }}</span>
+            </p>
           </a>
         </nav>
         <b-field :label="$t('add')">
           <b-input v-model="newServer" placeholder="http://example.com/IberbookEdu"></b-input>
           <p class="control">
             <b-button type="is-primary" @click="setNewServer">{{ $t("add") }}</b-button>
-          </p>
-        </b-field>
-        <b-field :label="$t('remove')">
-          <b-select v-model="removeServer">
-            <option v-for="(server, index) in servers.list" v-bind:key="index" :value="server">{{server}}</option>
-          </b-select>
-          <p class="control">
-            <b-button type="is-danger" @click="deleteServer">{{ $t("remove") }}</b-button>
           </p>
         </b-field>
       </div>
@@ -62,7 +57,6 @@ export default {
       return {
         searchServer: "", // Search string for servers list
         newServer: "", // New server input
-        removeServer: ""
       }
   },
   methods: {
@@ -83,18 +77,23 @@ export default {
       }
     },
     setActiveServer: async function(server) {
-      this.$store.commit('setActiveServer', server)
-      localStorage.servers = JSON.stringify(this.servers)
-      this.$buefy.toast.open('Active server modified')
-      // Logout
-      this.$router.push("/logout")
+      if (server !== this.servers.active) {
+        this.$store.commit('setActiveServer', server)
+        localStorage.servers = JSON.stringify(this.servers)
+        this.$buefy.toast.open('Active server modified')
+        // Logout
+        this.$router.push("/logout")
+      }
+      else {
+        this.$buefy.toast.open("Active server already in use")
+      }
     },
-    deleteServer: async function() {
+    deleteServer: async function(server) {
       if (this.servers.list.length === 1) {
         this.$buefy.toast.open("You can't delete all your servers")
       }
       else {
-        this.$store.commit("removeServer", this.removeServer)
+        this.$store.commit("removeServer", server)
         localStorage.servers = JSON.stringify(this.servers)
       }
     }

@@ -33,7 +33,7 @@ export default {
     name: "Gallery",
     data() {
         return {
-            gallery: null,
+            gallery: [],
             baseurl: BASE_URL
         }
     },

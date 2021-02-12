@@ -1,5 +1,5 @@
 import { requests } from "./api.js"
-
+import fileUpload from "./fileUpload.js"
 export async function setProfile(schoolindex, groupindex) {
     let formData = new FormData();
     formData.append("schoolindex", schoolindex)
@@ -25,14 +25,20 @@ export async function getGroupGallery() {
     return res.data
 }
 
-export async function handleUpload(input) {
+export async function handleMediaUpload(media, type) {
+    var uploader = new fileUpload(media, type)
+    const res = await uploader.loop()
+    return res
+}
+
+export async function handleMiscUpload(input) {
     let formData = new FormData();
     Object.entries(input).forEach(([key, value]) => {
         if (value) {
             formData.append(key, value)
         }
     });
-    const res = await requests("users/upload.php", "POST", formData)
+    const res = await requests("users/uploadMisc.php", "POST", formData)
     return res
 }
 
@@ -44,6 +50,6 @@ export async function setVote(id) {
 }
 
 export async function getYearbook() {
-    const res = await requests("getYearbooks.php?mode=user", "GET", null)
+    const res = await requests("yearbooks/getYearbooks.php?mode=user", "GET", null)
     return res.data
 }

@@ -10,6 +10,7 @@
             "columns": {
                 "name": "Full name",
                 "type": "Type",
+                "quote": "Quote",
                 "link": "Link",
                 "subject": "Subject"
             }
@@ -35,6 +36,7 @@
             "columns": {
                 "name": "Nombre completo",
                 "type": "Tipo",
+                "quote": "Cita",
                 "link": "Enlace",
                 "subject": "Asignatura"
             }
@@ -89,9 +91,15 @@
                 {{ props.row.type }}
             </b-table-column>
 
+            <b-table-column field="quote" :label="$t('table.columns.quote')" v-slot="props">
+                <template>
+                    <b-button @click="$buefy.dialog.alert(props.row.quote)" :disabled="!props.row.quote" type="is-info" size="is-small">Click</b-button>
+                </template>
+            </b-table-column>
+
             <b-table-column field="link" :label="$t('table.columns.link')" v-slot="props">
                 <template>
-                    <b-button :disabled="!props.row.link" type="is-info" size="is-small" tag="a" :href="props.row.link">Click</b-button>
+                    <b-button :disabled="!props.row.link" type="is-info" size="is-small" tag="a" :href="props.row.link" target="_blank">Click</b-button>
                 </template>
             </b-table-column>
 
@@ -138,6 +146,14 @@ import { getGroupData } from "@/services/user.js"
 import { deleteUserItems } from "@/services/admin.js"
 export default {
     name: "GroupUploads",
+    data() {
+        return {
+            baseurl: BASE_URL,
+            groupdata: [],
+            selected: null,
+            deletedElements: []
+        }
+    },
     methods: {
         deleteItems: async function() {
             const res = await deleteUserItems(this.selected.id, this.deletedElements);
@@ -158,14 +174,6 @@ export default {
                 })
             }
             this.groupdata = await getGroupData()
-        }
-    },
-    data() {
-        return {
-            baseurl: BASE_URL,
-            groupdata: [],
-            selected: null,
-            deletedElements: []
         }
     },
     mounted: async function() {

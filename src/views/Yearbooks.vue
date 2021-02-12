@@ -1,19 +1,31 @@
+<i18n>
+{
+    "en": {
+        "more": "More",
+        "max": "Maximum yearbooks reached"
+    },
+    "es": {
+        "more": "Más",
+        "max": "Máximo de orlas alcanzadas"
+    }
+}
+</i18n>
 <template>
     <div>
         <SearchYB @change-sort="changeSort"></SearchYB>
         <section class="section">
+            <b-loading v-model="isLoading"></b-loading>
             <Exhibitor v-bind:yearbooks="yearbooks" @send-yearbook="setYearbook"></Exhibitor>
         </section>
         <section class="section">
             <div class="container has-text-centered">
-                <b-button :disabled="limit" @click="newYearbooks">More</b-button>
+                <b-button :disabled="limit" @click="newYearbooks">{{ $t("more") }}</b-button>
             </div>
         </section>
     </div>
 </template>
 
 <script>
-import { BASE_URL } from '@/services/config.js'
 import {getYearbooks} from '@/services/common.js'
 import SearchYB from "@/components/Yearbooks/SearchYB.vue"
 import Exhibitor from "@/components/Yearbooks/Exhibitor.vue"
@@ -29,17 +41,18 @@ export default {
             selectedYearbook: null,
             offset: 0, // Yearbooks already shown
             sort: "votes",
-            limit: false // true when the user already loaded every yearbook available
+            limit: false, // true when the user already loaded every yearbook available
+            isLoading: true
         }
     },
     methods: {
         // Get yearbooks
         newYearbooks: async function() {
+            this.isLoading = true
             if (!this.limit) {
                 const fetchedYearbooks = await getYearbooks(this.offset, this.sort)
                 if (fetchedYearbooks.code == "C") {
                     for (let i=0; i<fetchedYearbooks.data.length; i++) {
-                        document.createElement('img').setAttribute('src', `${BASE_URL}/yearbooks/${fetchedYearbooks.data[i].banner}`);
                         this.yearbooks.push(fetchedYearbooks.data[i])
                     }
                     this.offset = this.offset + fetchedYearbooks.data.length
@@ -47,7 +60,7 @@ export default {
                 else if (fetchedYearbooks.code == "NO-MORE") {
                     this.$buefy.toast.open({
                         duration: 5000,
-                        message: `Máximo de orlas alcanzadas`,
+                        message: this.$t("max"),
                         position: 'is-bottom',
                         type: 'is-danger'
                     })
@@ -65,11 +78,12 @@ export default {
             else {
                 this.$buefy.toast.open({
                     duration: 5000,
-                    message: "No hay más orlas disponibles",
+                    message: this.$t("max"),
                     position: 'is-bottom',
                     type: 'is-danger'
                 })
             }
+            this.isLoading = false
         },
         setYearbook: function(yearbook) {
             this.selectedYearbook = yearbook

@@ -39,7 +39,7 @@ export default {
         }
     },
     watch: {
-        sortValue: function(sortby) {
+        "sortValue": function(sortby) {
             this.$emit('change-sort', sortby)
         }
     }

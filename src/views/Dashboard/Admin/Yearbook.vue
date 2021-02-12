@@ -11,7 +11,15 @@
             "yearbook": "Your yearbook",
             "date": "Generated on {date}",
             "see": "See yearbook",
-            "delete": "Delete yearbook"
+            "delete": "Delete yearbook",
+            "deleted": "Yearbook deleted successfully",
+            "success": "Yearbook generated successfully",
+            "error": "There was an error when generating the yearbook"
+        },
+        "delete": {
+            "action": "Delete yearbook",
+            "deleted": "Deleted successfully",
+            "error": "There was an error when deleting the yearbook"
         }
     },
     "es": {
@@ -59,21 +67,34 @@
             <p class="title">{{ $t("create.manage") }}</p>
             <b-field :label="$t('create.template')">
                 <b-select v-if="themes" v-model="chosenTheme">
-                    <option v-for="theme in themes" :key="theme.id" :value="theme.id">{{theme.name}} - {{ theme.description }}</option>
+                    <option v-for="(theme, index) in themes" :key="theme.id" :value="index">{{theme.name}}</option>
                 </b-select>
             </b-field>
-            <b-field class="file is-primary" :class="{'has-name': !!banner}">
-                <b-upload accept="image/gif,image/png,image/jpeg" v-model="banner" class="file-label">
-                    <span class="file-cta">
-                        <b-icon class="file-icon" icon="upload"></b-icon>
-                        <span class="file-label">{{ $t("create.banner") }}</span>
-                    </span>
-                    <span class="file-name" v-if="banner">
-                        {{ banner.name }}
-                    </span>
-                </b-upload>
-            </b-field>
-            <b-button @click="uploadYearbook" v-bind:class="{ 'is-loading': generating}">{{ $t("create.generate") }}</b-button>
+            <div v-if="theme">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">{{theme.name}}</p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <p>{{theme.description}}</p>
+                            <p v-if="theme.zip">Can be zippable</p>
+                            <p v-if="theme.banner">Can add banner</p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <b-field v-if="theme.banner" class="file is-primary" :class="{'has-name': !!banner}">
+                    <b-upload accept="image/gif,image/png,image/jpeg" v-model="banner" class="file-label">
+                        <span class="file-cta">
+                            <b-icon class="file-icon" icon="upload"></b-icon>
+                            <span class="file-label">{{ $t("create.banner") }}</span>
+                        </span>
+                        <span class="file-name" v-if="banner">{{ banner.name }}</span>
+                    </b-upload>
+                </b-field>
+                <b-button type="is-success" @click="uploadYearbook" v-bind:class="{ 'is-loading': generating}">{{ $t("create.generate") }}</b-button>
+            </div>
         </div>
     </div>
 </template>
@@ -90,17 +111,13 @@ export default {
             generating: false,
             banner: null,
             themes: [],
-            chosenTheme: "default"
+            chosenTheme: 0 // Index of chosen theme, 0 default (first)
         }
-    },
-    created: async function() {
-        this.yearbook = await getYearbook()
-        this.themes = await getThemes()
     },
     methods: {
         uploadYearbook: async function() {
             this.generating = true
-            const newYearbook = await uploadYearbook(this.chosenTheme, this.banner)
+            const newYearbook = await uploadYearbook(this.theme.id, this.banner)
             if (newYearbook.code === "C") {
                 this.$buefy.toast.open(this.$t("generated.success"))
                 this.yearbook = await getYearbook()
@@ -129,6 +146,15 @@ export default {
                     type: 'is-danger'
                 })
             }
+        }
+    },
+    created: async function() {
+        this.yearbook = await getYearbook()
+        this.themes = await getThemes()
+    },
+    computed: {
+        theme: function() {
+            return this.themes[this.chosenTheme]
         }
     }
 }

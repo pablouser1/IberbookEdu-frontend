@@ -27,6 +27,7 @@
 
 <template>
     <section id="menu-hero" class="hero has-bg-img is-fullheight-with-navbar">
+        <b-loading :is-full-page="true" v-model="isLoading"></b-loading>
         <div class="hero-body">
             <div v-if="yearbook" class="box container has-text-centered">
                 <p class="has-text-left">
@@ -39,15 +40,12 @@
                 <p class="subtitle">{{ yearbook.acyear }}</p>
                 <p>{{ $tc('votes', yearbook.votes) }}</p>
                 <div class="buttons is-centered">
-                    <b-button size="is-medium" tag="a" type="is-link" target="_blank" icon-left="book" :href="baseurl + yearbook.url">{{ $t("see") }}</b-button>
+                    <b-button type="is-link" tag="a" icon-left="book" size="is-medium" target="_blank" :href="baseurl + yearbook.url">{{ $t("see") }}</b-button>
                 </div>
                 <!-- Opciones básicas -->
                 <div class="buttons is-centered">
-                    <b-button tag="a" type="is-link" icon-left="download" :href="baseurl + yearbook.url + '/yearbook.zip'">{{ $t("download") }}</b-button>
-                    <button @click="vote(yearbook.id)" class="button is-primary">
-                        <b-icon icon="ballot"></b-icon>
-                        <span>{{ $t("vote") }}</span>
-                    </button>
+                    <b-button type="is-info" tag="a" icon-left="download" :href="baseurl + yearbook.url + '/yearbook.zip'">{{ $t("download") }}</b-button>
+                    <b-button type="is-success" @click="vote()" icon-left="ballot">{{ $t("vote") }}</b-button>
                 </div>
                 <!-- Compartir -->
                 <div class="container">
@@ -65,14 +63,12 @@
                     </div>
                 </div>
             </div>
-            <Loading v-else></Loading>
         </div>
     </section>
 </template>
 
 <script>
 import { hasPredifinedURL } from '@/services/api.js'
-import Loading from "@/components/Loading.vue"
 import { BASE_URL } from "@/services/config.js"
 import { getYearbook } from "@/services/common.js"
 import { setVote } from "@/services/user.js"
@@ -82,9 +78,9 @@ import "@/assets/banner.css"
 export default {
     name: "Yearbook",
     props: ["id"],
-    components: { Loading },
     data: function () {
         return {
+            isLoading: true,
             yearbook: null,
             baseurl: BASE_URL,
             url: "",
@@ -99,8 +95,8 @@ export default {
             this.$buefy.toast.open(this.$t("linkcopied"))
         },
         // Vote system
-        vote: async function(id) {
-            const voteanswer = await setVote(id)
+        vote: async function() {
+            const voteanswer = await setVote(this.id)
             // Error voting
             if (voteanswer.code !== "C") {
                 this.$buefy.toast.open({
@@ -127,6 +123,7 @@ export default {
         }
         this.shareurl = encodeURIComponent(this.url);
         document.getElementById("menu-hero").style.backgroundImage = `url('${this.baseurl}/yearbooks/${this.yearbook.banner}')`
+        this.isLoading = false
     }
 }
 </script>

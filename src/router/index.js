@@ -60,28 +60,28 @@ const routes = [
       // Users //
       {
         path: '',
-        component:  () => import(/* webpackChunkName: "dashboard_mainmenu" */ '../views/Dashboard/MainMenu.vue')
+        component: () => import(/* webpackChunkName: "dashboard_mainmenu" */ '../views/Dashboard/MainMenu.vue')
       },
       {
         path: "uploads",
-        component:  () => import(/* webpackChunkName: "dashboard_uploads" */ '../views/Dashboard/Uploads.vue')
+        component: () => import(/* webpackChunkName: "dashboard_uploads" */ '../views/Dashboard/Uploads.vue')
       },
       {
         path: "gallery",
-        component:  () => import(/* webpackChunkName: "dashboard_gallery" */ '../views/Dashboard/Gallery.vue')
+        component: () => import(/* webpackChunkName: "dashboard_gallery" */ '../views/Dashboard/Gallery.vue')
       },
       // ADMINS //
       {
         path: "admin/uploads",
-        component:  () => import(/* webpackChunkName: "dashboard_adminuploads" */ '../views/Dashboard/Admin/GroupUploads.vue')
+        component: () => import(/* webpackChunkName: "dashboard_adminuploads" */ '../views/Dashboard/Admin/GroupUploads.vue')
       },
       {
         path: "admin/gallery",
-        component:  () => import(/* webpackChunkName: "dashboard_admingallery" */ '../views/Dashboard/Admin/GalleryAdmin.vue')
+        component: () => import(/* webpackChunkName: "dashboard_admingallery" */ '../views/Dashboard/Admin/GalleryAdmin.vue')
       },
       {
         path: "admin/yearbook",
-        component:  () => import(/* webpackChunkName: "dashboard_yearbook" */ '../views/Dashboard/Admin/Yearbook.vue')
+        component: () => import(/* webpackChunkName: "dashboard_yearbook" */ '../views/Dashboard/Admin/Yearbook.vue')
       },
     ]
   },
@@ -94,14 +94,14 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: "/",
   routes
 })
 
 // Avoid unauthorized users enter dashboard
 router.beforeEach((to, from, next) => {
   switch (to.path) {
-    case "/dashboard/":
+    case "/dashboard":
     case "/profile":
       if (!localStorage.loggedin) {
         next({name: "Home"})

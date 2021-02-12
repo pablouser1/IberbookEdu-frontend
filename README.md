@@ -38,7 +38,6 @@ yarn build
 * Vue.js (https://vuejs.org)
 * Bulma (https://bulma.io)
 * Buefy (https://buefy.org)
-* Spinkit (https://tobiasahlin.com/spinkit)
 
 # TODO
 

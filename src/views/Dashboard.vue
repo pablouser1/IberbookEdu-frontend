@@ -45,14 +45,14 @@
             <div class="p-1">
                 <b-menu>
                     <b-menu-list :label="$t('controlpanel')">
-                        <b-menu-item icon="account" :label="$t('tabs.user.mainmenu')" tag="router-link" to="/dashboard"></b-menu-item>
-                        <b-menu-item icon="upload" :label="$t('tabs.user.uploads')" tag="router-link" to="/dashboard/uploads"></b-menu-item>
-                        <b-menu-item icon="image-album" :label="$t('tabs.user.gallery')" tag="router-link" to="/dashboard/gallery"></b-menu-item>
+                        <b-menu-item icon="account" :label="$t('tabs.user.mainmenu')" @click="switchTab('/dashboard')"></b-menu-item>
+                        <b-menu-item icon="upload" :label="$t('tabs.user.uploads')" @click="switchTab('/dashboard/uploads')"></b-menu-item>
+                        <b-menu-item icon="image-album" :label="$t('tabs.user.gallery')" @click="switchTab('/dashboard/gallery')"></b-menu-item>
                     </b-menu-list>
                     <b-menu-list v-if="userinfo.rank === 'admin'" :label="$t('admin')">
-                        <b-menu-item icon="upload-multiple" :label="$t('tabs.admin.groupuploads')" tag="router-link" to="/dashboard/admin/uploads"></b-menu-item>
-                        <b-menu-item icon="image-album" :label="$t('tabs.admin.admingallery')" tag="router-link" to="/dashboard/admin/gallery"></b-menu-item>
-                        <b-menu-item icon="book" :label="$t('tabs.admin.yearbook')" tag="router-link" to="/dashboard/admin/yearbook"></b-menu-item>
+                        <b-menu-item icon="upload-multiple" :label="$t('tabs.admin.groupuploads')" @click="switchTab('/dashboard/admin/uploads')"></b-menu-item>
+                        <b-menu-item icon="image-album" :label="$t('tabs.admin.admingallery')" @click="switchTab('/dashboard/admin/gallery')"></b-menu-item>
+                        <b-menu-item icon="book" :label="$t('tabs.admin.yearbook')" @click="switchTab('/dashboard/admin/yearbook')"></b-menu-item>
                     </b-menu-list>
                 </b-menu>
             </div>
@@ -80,6 +80,12 @@ export default {
     data() {
         return {
             sideBar: false
+        }
+    },
+    methods: {
+        switchTab: function(tab) {
+            this.$router.push(tab)
+            this.sideBar = false
         }
     },
     computed: {

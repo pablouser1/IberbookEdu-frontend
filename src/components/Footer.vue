@@ -7,10 +7,6 @@
   "es": {
     "madewith": "Hecho con {heart} en Github",
     "languages": "Idiomas"
-  },
-  "fr": {
-    "madewith": "Fait avec {heart} sur Github",
-    "languages": "Langues"
   }
 }
 </i18n>
@@ -27,7 +23,6 @@
           </button>
           <b-dropdown-item @click="changelang('en')" aria-role="listitem">🇬🇧 English</b-dropdown-item>
           <b-dropdown-item @click="changelang('es')" aria-role="listitem">🇪🇸 Español</b-dropdown-item>
-          <b-dropdown-item @click="changelang('fr')" aria-role="listitem">🇫🇷 Français</b-dropdown-item>
         </b-dropdown>
       </p>
       <i18n path="madewith" tag="p">

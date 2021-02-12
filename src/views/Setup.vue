@@ -3,7 +3,16 @@
     "en": {
         "hi": "Hi!",
         "welcome" : "Welcome to IberbookEdu",
-        "add": "Add your first server"
+        "add": "Add your first server",
+        "finish": "That's all!",
+        "home": "Home"
+    },
+    "es": {
+        "hi": "¡Hola!",
+        "welcome" : "Bienvenido a IberbookEdu",
+        "add": "Añadir servidor",
+        "finish": "¡Eso es todo!",
+        "home": "Menú principal"
     }
 }
 </i18n>
@@ -18,7 +27,7 @@
             :icon-prev="'chevron-left'"
             :icon-next="'chevron-right'"
             :label-position="'bottom'"
-            :mobile-mode="'minimalistic'">
+            :mobile-mode="'minimalist'">
             <b-step-item step="1" label="Welcome">
                 <div class="container">
                     <h1 class="title has-text-centered">{{ $t("hi") }}</h1>
@@ -40,14 +49,9 @@
             </b-step-item>
 
             <b-step-item step="3" label="Finish">
-                <h1 class="title has-text-centered">That's all!</h1>
+                <h1 class="title has-text-centered">{{ $t("finish") }}</h1>
                 <div class="container has-text-centered">
-                    <router-link class="button is-info" to="/" custom v-slot="{ navigate }">
-                        <span>
-                            <b-icon icon="home"></b-icon>
-                            <span @click="navigate" @keypress.enter="navigate" role="link">Home</span>
-                        </span>
-                    </router-link>
+                    <b-button icon-left="home" class="is-info" @click="goHome">{{ $t("home") }}</b-button>
                 </div>
             </b-step-item>
         </b-steps>
@@ -80,6 +84,15 @@ export default {
         setActiveServer: async function(server) {
             this.$store.commit('setActiveServer', server)
             localStorage.servers = JSON.stringify(this.servers)
+        },
+        goHome: function() {
+            if (this.servers.active) {
+                this.$router.push("/")
+            }
+            else {
+                this.$buefy.toast.open("No active server")
+                this.activeStep--;
+            }
         }
     },
     data() {

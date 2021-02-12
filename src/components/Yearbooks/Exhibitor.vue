@@ -12,12 +12,12 @@
 </i18n>
 
 <template>
-    <div class="container has-text-centered animate__animated animate__fadeIn">
+    <div class="container has-text-centered">
         <div class="columns is-mobile is-centered is-multiline is-vcentered">
-            <div class="column is-narrow" v-for="yearbook in yearbooks" v-bind:key="yearbook.id">
+            <div class="column is-narrow" v-for="yearbook in yearbooks" :key="yearbook.id">
                 <transition appear name="fade">
                     <div class="card">
-                        <div class="card-image">
+                        <div v-if="yearbook.banner" class="card-image">
                             <figure class="image is-16by9">
                                 <img :src="baseurl + '/yearbooks/' + yearbook.banner" alt="Banner">
                             </figure>
