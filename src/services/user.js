@@ -1,5 +1,6 @@
 import { requests } from "./api.js"
 import fileUpload from "./fileUpload.js"
+
 export async function setProfile(schoolindex, groupindex) {
     let formData = new FormData();
     formData.append("schoolindex", schoolindex)
@@ -52,4 +53,9 @@ export async function setVote(id) {
 export async function getYearbook() {
     const res = await requests("yearbooks/getYearbooks.php?mode=user", "GET", null)
     return res.data
+}
+
+export async function getMessages(offset) {
+    const res = await requests(`messages/getMessages.php?offset=${offset}`, "GET", null)
+    return res
 }

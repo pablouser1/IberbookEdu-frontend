@@ -8,7 +8,7 @@
             "ready": "Your yearbook is ready",
             "see": "View"
         },
-        "classmates": "Classmates",
+        "yourGroup": "Your group",
         "columns": {
             "name": "Name",
             "type": "Type",
@@ -24,7 +24,7 @@
             "ready": "Tu orla está lista",
             "see": "Ver"
         },
-        "classmates": "Compañeros de clase",
+        "yourGroup": "Tu grupo",
         "columns": {
             "name": "Nombre",
             "type": "Tipo",
@@ -52,7 +52,7 @@
             </section>
             <hr>
         </div>
-        <p class="title">{{ $t("classmates") }}:</p>
+        <p class="title">{{ $t("yourGroup") }}:</p>
         <b-table :data="groupdata" :columns="columns"></b-table>
     </div>
 </template>

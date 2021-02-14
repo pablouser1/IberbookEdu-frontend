@@ -1,4 +1,5 @@
 import {BASE_URL} from "./config.js"
+
 export default class fileUpload {
     constructor(file, type) {
         this.BYTES_PER_CHUNK = 10485760

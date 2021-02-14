@@ -3,7 +3,6 @@
     "en": {
         "username": "Username",
         "password": "Password",
-        "im": "I'm...",
         "types": {
             "select": "Choose a rank",
             "student": "Student",
@@ -15,7 +14,6 @@
     "es": {
         "username": "Nombre de usuario",
         "password": "Contraseña",
-        "im": "Soy...",
         "types": {
             "select": "Elige un rango",
             "student": "Alumno",
@@ -41,14 +39,6 @@
             <b-field :label="$t('password')">
                 <b-input icon="lock" type="password" password-reveal size="medium" v-model="input.password"></b-input>
             </b-field>
-                        
-            <b-field :label="$t('im')">
-                <b-select v-model="input.type" :placeholder="$t('types.select')">
-                    <option value="students">{{ $t("types.student") }}</option>
-                    <option value="guardians">{{ $t("types.guardian") }}</option>
-                    <option value="teachers">{{ $t("types.teacher") }}</option>
-                </b-select>
-            </b-field>
             <b-button icon-left="login-variant" :loading="loggingIn" @click="startLogin" type="is-primary" expanded>Iniciar sesión</b-button>
         </div>
     </section>
@@ -63,8 +53,7 @@ export default {
             loggingIn: false,
             input: {
                 username: "",
-                password: "",
-                type: ""
+                password: ""
             }
         }
     },

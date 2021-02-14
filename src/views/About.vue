@@ -70,9 +70,7 @@
       <br>
       <p>Assets:</p>
       <ul>
-        <li>
-          Favicon: Fabián Alexis / <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA</a>
-        </li>
+        <li>Favicon: Fabián Alexis / <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA</a></li>
       </ul>
       <br>
     </div>

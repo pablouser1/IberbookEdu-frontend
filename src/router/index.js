@@ -49,11 +49,6 @@ const routes = [
     component: Profile
   },
   {
-    path: '/logout',
-    name: 'Logout',
-    component: Logout
-  },
-  {
     path: '/dashboard',
     component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
     children: [
@@ -86,6 +81,16 @@ const routes = [
     ]
   },
   {
+    path: '/messages',
+    name: 'Messages',
+    component: () => import(/* webpackChunkName: "messages" */ '../views/Messages.vue')
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout
+  },
+  {
     path: '/about',
     name: 'About',
     component: About
@@ -103,6 +108,7 @@ router.beforeEach((to, from, next) => {
   switch (to.path) {
     case "/dashboard":
     case "/profile":
+    case "/messages":
       if (!localStorage.loggedin) {
         next({name: "Home"})
       }

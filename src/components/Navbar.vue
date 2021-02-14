@@ -7,6 +7,7 @@
     "login": "Login",
     "profile": "My profile",
     "dashboard": "Dashboard",
+    "messages": "Messages",
     "logout": "Logout"
   },
   "es": {
@@ -16,6 +17,7 @@
     "login": "Iniciar sesión",
     "profile": "Mi perfil",
     "dashboard": "Panel de control",
+    "messages": "Mensajes",
     "logout": "Cerrar sesión"
   }
 }
@@ -54,6 +56,10 @@
           <b-navbar-item tag="router-link" :to="{ path: '/dashboard' }">
             <b-icon icon="view-dashboard"></b-icon>
             <span>{{ $t("dashboard") }}</span>
+          </b-navbar-item>
+          <b-navbar-item tag="router-link" :to="{ path: '/messages' }">
+            <b-icon icon="message"></b-icon>
+            <span>{{ $t("messages") }}</span>
           </b-navbar-item>
           <b-navbar-item tag="router-link" :to="{ path: '/logout' }">
             <b-icon icon="logout"></b-icon>

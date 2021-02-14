@@ -38,6 +38,7 @@
                     <span>{{ $t("yearbook") }} {{ yearbook.schoolyear }}</span>
                 </p>
                 <p class="subtitle">{{ yearbook.acyear }}</p>
+                <p>{{ yearbook.schoolname }}</p>
                 <p>{{ $tc('votes', yearbook.votes) }}</p>
                 <div class="buttons is-centered">
                     <b-button type="is-link" tag="a" icon-left="book" size="is-medium" target="_blank" :href="baseurl + yearbook.url">{{ $t("see") }}</b-button>
