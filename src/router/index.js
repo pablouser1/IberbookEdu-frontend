@@ -105,17 +105,17 @@ const router = new VueRouter({
 
 // Avoid unauthorized users enter dashboard
 router.beforeEach((to, from, next) => {
-  switch (to.path) {
-    case "/dashboard":
-    case "/profile":
-    case "/messages":
+  switch (to.name) {
+    case "Dashboard":
+    case "Profile":
+    case "Messages":
       if (!localStorage.loggedin) {
         next({name: "Home"})
       }
     break;
-    case "/login":
+    case "Login":
       if(localStorage.loggedin) {
-        next({name: "Home"})
+        next({name: "Dashboard"})
       }
     break;
   }

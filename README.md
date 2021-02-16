@@ -4,7 +4,7 @@ For the official backend click [here](https://github.com/pablouser1/IberbookEdu-
 
 # Installation
 First of all, prepare the dependencies with
-```
+```bash
 yarn install
 ```
 

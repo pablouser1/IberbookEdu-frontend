@@ -59,3 +59,11 @@ export async function getMessages(offset) {
     const res = await requests(`messages/getMessages.php?offset=${offset}`, "GET", null)
     return res
 }
+
+export async function changePassword(oldPassword, newPassword) {
+    const formData = new FormData();
+    formData.append("oldPassword", oldPassword)
+    formData.append("newPassword", newPassword)    
+    const res = await requests("changePassword.php", "POST", formData)
+    return res
+}
