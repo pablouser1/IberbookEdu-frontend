@@ -26,7 +26,7 @@
 <template>
     <div class="container">
         <div class="columns is-centered is-vcentered is-multiline">
-            <div class="column is-narrow">
+            <div class="column is-half">
                 <b-field>
                     <b-upload v-model="files.photos"
                         multiple
@@ -46,8 +46,16 @@
                         </section>
                     </b-upload>
                 </b-field>
+                <div class="tags">
+                    <span v-for="(file, index) in files.photos"
+                        :key="index"
+                        class="tag is-primary" >
+                        {{file.name}}
+                        <button class="delete is-small" type="button" @click="deletePhoto(index)"></button>
+                    </span>
+                </div>
             </div>
-            <div class="column is-narrow">
+            <div class="column is-half">
                 <b-field>
                     <b-upload v-model="files.videos"
                         multiple
@@ -67,49 +75,31 @@
                         </section>
                     </b-upload>
                 </b-field>
-            </div>
-        </div>
-        <div class="columns is-centered is-vcentered is-multiline">
-            <div v-if="files.photos.length" class="column is-narrow">
-                <i18n path="description" tag="p">
-                    <template v-slot:type>
-                        <span>{{ $t("photos") }}</span>
-                    </template>
-                </i18n>
-                <div class="columns is-multiline">
-                    <div class="column is-narrow" v-for="(photo, index) in files.photos" v-bind:key="'photo' + index">
-                        <b-field :label="photo.name">
-                            <b-input v-model="photos_descriptions[index]"></b-input>
-                        </b-field>
-                    </div>
-                </div>
-            </div>
-            <div v-if="files.videos.length" class="column is-narrow">
-                <i18n path="description" tag="p">
-                    <template v-slot:type>
-                        <span>{{ $t("videos") }}</span>
-                    </template>
-                </i18n>
-                <div class="columns is-multiline">
-                    <div class="column is-narrow" v-for="(video, index) in files.videos" v-bind:key="'video' + index">
-                        <b-field :label="video.name">
-                            <b-input v-model="videos_descriptions[index]"></b-input>
-                        </b-field>
-                    </div>
+                <div class="tags">
+                    <span v-for="(file, index) in files.videos"
+                        :key="index"
+                        class="tag is-primary" >
+                        {{file.name}}
+                        <button class="delete is-small" type="button" @click="deleteVideo(index)"></button>
+                    </span>
                 </div>
             </div>
         </div>
+        <UploadProgress v-if="fileUploading.isActive" :progress="fileUploading"></UploadProgress>
         <div class="field">
             <b-switch v-model="overwrite">{{ $t("overwrite") }}</b-switch>
         </div>
-        <b-button @click="sendGallery">{{ $t("send") }}</b-button>
+        <b-button @click="startUpload">{{ $t("send") }}</b-button>
     </div>
 </template>
 
 <script>
-import { uploadGallery } from "@/services/admin.js"
+import UploadProgress from "@/components/UploadProgress.vue"
+import fileUpload from "@/services/fileUpload.js"
+import { deleteGallery } from "@/services/admin.js"
 export default {
     name: "GalleryAdmin",
+    components: { UploadProgress },
     data() {
         return {
             files: {
@@ -117,18 +107,64 @@ export default {
                 videos: []
             },
             overwrite: false,
-            photos_descriptions: [],
-            videos_descriptions: []
+            isUploading: false,
+            fileUploading: {
+                isActive: false,
+                current: 0,
+                total: 0,
+                type: ""
+            }
         }
     },
     methods: {
-        sendGallery: function() {
-            const newGallery = uploadGallery(this.files, this.overwrite, this.photos_descriptions, this.videos_descriptions)
-            if (newGallery.code !== "C") {
-                this.$buefy.toast.open(this.$t("error"))
+        deletePhoto(index) {
+            this.files.photos.splice(index, 1)
+        },
+        deleteVideo(index) {
+            this.files.videos.splice(index, 1)
+        },
+        startUpload: async function() {
+            this.isUploading = true
+            if (this.overwrite) {
+                const isDeleted = await deleteGallery();
+                if (isDeleted.code !== "C") {
+                    this.$buefy.toast.open({
+                        duration: 3000,
+                        message: isDeleted.error,
+                        position: 'is-bottom',
+                        type: 'is-danger'
+                    })
+                }
             }
-            else {
-                this.$buefy.toast.open(this.$t("success"))
+            await this.uploadData()
+            this.isUploading = false
+        },
+        async uploadData() {
+            if (this.files.photos || this.files.videos) {
+                this.fileUploading.isActive = true
+                if (this.files.photos) {
+                    for (let i=0; i<this.files.photos.length; i++) {
+                        await this.uploadMedia(this.files.photos[i], "photo")
+                    }
+                }
+                if (this.files.videos) {
+                    for (let i=0; i<this.files.videos.length; i++) {
+                        await this.uploadMedia(this.files.videos[i], "video")
+                    }
+                }
+                this.fileUploading.isActive = false
+            }
+        },
+        async uploadMedia(media, type) {
+            var fileClass = new fileUpload(media, type, "/gallery/uploadMedia.php");
+            this.fileUploading.total = fileClass.NUM_CHUNKS
+            this.fileUploading.type = type
+            while (fileClass.start < fileClass.SIZE) {
+                this.fileUploading.current = fileClass.num
+                let res = await fileClass.send()
+                if (!res || res.code === "E") {
+                    break;
+                }
             }
         }
     }

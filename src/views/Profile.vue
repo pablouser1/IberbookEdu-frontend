@@ -42,6 +42,9 @@
               <option v-for="(school, index) in userinfo.schools" :key="school.id" :value="index">{{school.name}}</option>
             </b-select>
           </b-field>
+          <b-field v-if="selectedSchool !== null">
+            <b-button type="is-success" @click="activeStep++">Next</b-button>
+          </b-field>
         </div>
       </b-step-item>
 
@@ -52,6 +55,9 @@
             <b-select v-model="selectedGroup">
               <option v-for="(group, index) in userinfo.schools[selectedSchool].groups" :key="group.name" :value="index">{{group.name}}</option>
             </b-select>
+          </b-field>
+          <b-field v-if="selectedGroup !== null">
+            <b-button type="is-success" @click="activeStep++">Next</b-button>
           </b-field>
         </div>
         <div class="container has-text-centered" v-else>
@@ -77,11 +83,17 @@
                   <p v-else> {{ $t("notGroup") }}</p>
                 </div>
               </div>
-              <b-button :disabled="selectedSchool === null || selectedGroup === null" type="is-primary" @click="setProfile">Send</b-button>
+              <b-button :disabled="selectedSchool === null || selectedGroup === null" type="is-primary" :loading="isLoading" @click="setProfile">Send</b-button>
             </div>
           </div>
         </div>
       </b-step-item>
+      <!-- Custom navigation -->
+      <template #navigation="{previous}">
+        <b-button type="is-danger" icon-left="arrow-left" :disabled="previous.disabled" @click.prevent="previous.action">
+          Previous
+        </b-button>
+      </template>
     </b-steps>
   </section>
 </template>
@@ -94,11 +106,13 @@ export default {
     return {
       activeStep: 0,
       selectedSchool: null,
-      selectedGroup: null
+      selectedGroup: null,
+      isLoading: false
     }
   },
   methods: {
     setProfile: async function() {
+      this.isLoading = true
       const profiledata = await setProfile(this.selectedSchool, this.selectedGroup)
       // Login is successful
       if (profiledata && profiledata.code == "C") {
@@ -117,6 +131,7 @@ export default {
           ariaModal: true
         })
       }
+      this.isLoading = false
     }
   },
   computed: {

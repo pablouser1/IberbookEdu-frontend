@@ -45,7 +45,7 @@
                 </div>
                 <!-- Opciones básicas -->
                 <div class="buttons is-centered">
-                    <b-button type="is-info" tag="a" icon-left="download" :href="baseurl + yearbook.url + '/yearbook.zip'">{{ $t("download") }}</b-button>
+                    <b-button :disabled="!yearbook.zip" type="is-info" tag="a" icon-left="download" :href="baseurl + yearbook.url + '/yearbook.zip'">{{ $t("download") }}</b-button>
                     <b-button type="is-success" @click="vote()" icon-left="ballot">{{ $t("vote") }}</b-button>
                 </div>
                 <!-- Compartir -->

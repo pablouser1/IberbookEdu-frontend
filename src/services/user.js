@@ -1,5 +1,4 @@
 import { requests } from "./api.js"
-import fileUpload from "./fileUpload.js"
 
 export async function setProfile(schoolindex, groupindex) {
     let formData = new FormData();
@@ -26,19 +25,10 @@ export async function getGroupGallery() {
     return res.data
 }
 
-export async function handleMediaUpload(media, type) {
-    var uploader = new fileUpload(media, type)
-    const res = await uploader.loop()
-    return res
-}
-
-export async function handleMiscUpload(input) {
-    let formData = new FormData();
-    Object.entries(input).forEach(([key, value]) => {
-        if (value) {
-            formData.append(key, value)
-        }
-    });
+export async function handleMiscUpload(link, quote) {
+    const formData = new FormData();
+    formData.append("link", link)
+    formData.append("quote", quote)
     const res = await requests("users/uploadMisc.php", "POST", formData)
     return res
 }

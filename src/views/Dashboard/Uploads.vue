@@ -96,6 +96,7 @@
                     </b-field>
                 </div>
             </div>
+            <UploadProgress v-if="fileUploading.isActive" :progress="fileUploading"></UploadProgress>
             <b-field position="is-centered" :label="$t('upload.quote')">
                 <b-input v-model="input.quote" placeholder="Hello, this is an example" maxlength="70" type="textarea"></b-input>
             </b-field>
@@ -103,7 +104,7 @@
                 <b-input v-model="input.link" placeholder="https://github.com/pablouser1/IberbookEdu-frontend"></b-input>
             </b-field>
             <div class="buttons">
-                <b-button type="is-success" icon-left="send" :loading="isLoading" @click="uploadFiles">{{ $t("upload.send") }}</b-button>
+                <b-button type="is-success" icon-left="send" :loading="isUploading" @click="uploadData">{{ $t("upload.send") }}</b-button>
                 <b-button type="is-danger" icon-left="close" @click="resetInput">{{ $t("upload.reset") }}</b-button>
             </div>
         </div>
@@ -111,10 +112,13 @@
 </template>
 
 <script>
+import UploadProgress from "@/components/UploadProgress.vue"
 import { BASE_URL } from "@/services/config.js"
-import { getProfileUploads, handleMediaUpload, handleMiscUpload } from "@/services/user.js"
+import { getProfileUploads, handleMiscUpload } from "@/services/user.js"
+import fileUpload from "@/services/fileUpload.js"
 export default {
     name: "Uploads",
+    components: { UploadProgress },
     data() {
         return {
             uploads: null,
@@ -127,7 +131,14 @@ export default {
                 quote: null,
                 link: null
             },
-            isLoading: true
+            isLoading: true,
+            isUploading: false,
+            fileUploading: {
+                isActive: false,
+                current: 0,
+                total: 0,
+                type: ""
+            }
         }
     },
     mounted: async function() {
@@ -135,22 +146,20 @@ export default {
         this.isLoading = false
     },
     methods: {
-        uploadFiles: async function() {
-            this.isLoading = true
-            if (this.input.media.photo) {
-                const photoRes = await handleMediaUpload(this.input.media.photo, "photo")
-                if (photoRes.code === "C") {
-                    this.$buefy.snackbar.open("Photo uploaded")
+        async uploadData() {
+            this.isUploading = true
+            if (this.input.media.photo || this.input.media.video) {
+                this.fileUploading.isActive = true
+                if (this.input.media.photo) {
+                    await this.uploadMedia(this.input.media.photo, "photo")
                 }
-            }
-            if (this.input.media.video) {
-                const videoRes = await handleMediaUpload(this.input.media.video, "video")
-                if (videoRes.code === "C") {
-                    this.$buefy.snackbar.open("Video uploaded")
+                if (this.input.media.video) {
+                    await this.uploadMedia(this.input.media.video, "video")
                 }
+                this.fileUploading.isActive = false
             }
             if (this.input.quote || this.input.link) {
-                const miscRes = handleMiscUpload({link: this.input.link, quote: this.input.quote})
+                const miscRes = handleMiscUpload(this.input.link, this.input.quote)
                 if (miscRes.code === "C") {
                     this.$buefy.toast.open({
                         duration: 3000,
@@ -162,9 +171,21 @@ export default {
             }
             this.uploads = await getProfileUploads()
             this.resetInput()
-            this.isLoading = false
+            this.isUploading = false
         },
-        resetInput: function() {
+        async uploadMedia(media, type) {
+            let fileClass = new fileUpload(media, type, "/users/uploadMedia.php");
+            this.fileUploading.total = fileClass.NUM_CHUNKS
+            this.fileUploading.type = type
+            while (fileClass.start < fileClass.SIZE) {
+                this.fileUploading.current = fileClass.num
+                let res = await fileClass.send()
+                if (!res || res.code === "E") {
+                    break;
+                }
+            }
+        },
+        resetInput() {
             this.input.media.photo = null
             this.input.media.video = null
             this.input.quote = null

@@ -19,7 +19,7 @@ export async function requests(url, method, data) {
     catch {
         return {
             code: "E",
-            error: "Error while trying to connect to server"
+            error: "Error processing your request, try again later"
         }
     }
 }
