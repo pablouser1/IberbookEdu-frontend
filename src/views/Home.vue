@@ -45,25 +45,25 @@
 </template>
 
 <script>
-import { BASE_URL } from "@/services/config.js"
-import { getBanner } from "@/services/common.js"
+import { BASE_URL } from '@/services/config.js'
+import { getBanner } from '@/services/common.js'
 
-import "@/assets/banner.css"
+import '@/assets/banner.css'
 
 export default {
-  name: "Home",
-  data() {
+  name: 'Home',
+  data () {
     return {
       baseurl: BASE_URL,
       banner: null
     }
   },
-  created: async function() {
+  async created () {
     const banner = await getBanner()
-    if (banner.code === "C") {
+    if (banner.code === 'C') {
       this.banner = banner.data
-      document.getElementById("menu-hero").style.backgroundImage = `url('${this.baseurl}/${this.banner.url}')`
+      document.getElementById('menu-hero').style.backgroundImage = `url('${this.baseurl}/${this.banner.url}')`
     }
   }
-};
+}
 </script>

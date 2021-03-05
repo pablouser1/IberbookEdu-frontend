@@ -58,44 +58,44 @@
 </template>
 
 <script>
-import { getGroupData, getYearbook } from "@/services/user.js"
+import { getGroupData, getYearbook } from '@/services/user.js'
 export default {
-    name: "MainMenu",
-    data() {
-        return {
-            groupdata: [],
-            yearbook: null,
-            columns: [
-                {
-                    field: 'name',
-                    label: this.$t("columns.name")
-                },
-                {
-                    field: 'type',
-                    label: this.$t("columns.type")
-                },
-                {
-                    field: 'subject',
-                    label: this.$t("columns.subject")
-                },
-                {
-                    field: 'uploaded',
-                    label: this.$t("columns.lastseen")
-                }
-            ]
-        }
-    },
-    created: async function() {
-        this.groupdata = await getGroupData()
-        this.yearbook = await getYearbook()
-    },
-    computed: {
-        userinfo() {
-            return this.$store.state.userinfo;
+  name: 'MainMenu',
+  data () {
+    return {
+      groupdata: [],
+      yearbook: null,
+      columns: [
+        {
+          field: 'name',
+          label: this.$t('columns.name')
         },
-        profileinfo() {
-            return this.$store.state.profileinfo;
+        {
+          field: 'type',
+          label: this.$t('columns.type')
+        },
+        {
+          field: 'subject',
+          label: this.$t('columns.subject')
+        },
+        {
+          field: 'uploaded',
+          label: this.$t('columns.lastseen')
         }
+      ]
     }
+  },
+  created: async function () {
+    this.groupdata = await getGroupData()
+    this.yearbook = await getYearbook()
+  },
+  computed: {
+    userinfo () {
+      return this.$store.state.userinfo
+    },
+    profileinfo () {
+      return this.$store.state.profileinfo
+    }
+  }
 }
 </script>

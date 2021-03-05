@@ -23,19 +23,19 @@
             <template #percent>
                 <span>{{ showPercentage }}</span>
             </template>
-        </i18n>  
+        </i18n>
     </b-progress>
   </div>
 </template>
 
 <script>
 export default {
-  name: "UploadProgress",
-  props: ["progress"],
+  name: 'UploadProgress',
+  props: ['progress'],
   computed: {
-    showPercentage() {
-      return Math.round((this.progress.current / this.progress.total)*100)
-    },
-  },
-};
+    showPercentage () {
+      return Math.round((this.progress.current / this.progress.total) * 100)
+    }
+  }
+}
 </script>

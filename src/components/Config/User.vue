@@ -37,31 +37,30 @@
 </template>
 
 <script>
-import { changePassword } from "@/services/user.js"
+import { changePassword } from '@/services/user.js'
 export default {
-    name: "User",
-    data() {
-        return {
-            oldPassword : "",
-            newPassword: ""
-        }
-    },
-    methods: {
-        changePassword: async function() {
-            const res = await changePassword(this.oldPassword, this.newPassword)
-            if (res.code === "C") {
-                this.$buefy.toast.open({
-                    message: 'Password changed successfully',
-                    type: 'is-success'
-                })
-            }
-            else {
-                this.$buefy.toast.open({
-                    message: 'Error, please try again later',
-                    type: 'is-danger'
-                })
-            }
-        }
+  name: 'User',
+  data () {
+    return {
+      oldPassword: '',
+      newPassword: ''
     }
+  },
+  methods: {
+    changePassword: async function () {
+      const res = await changePassword(this.oldPassword, this.newPassword)
+      if (res.code === 'C') {
+        this.$buefy.toast.open({
+          message: 'Password changed successfully',
+          type: 'is-success'
+        })
+      } else {
+        this.$buefy.toast.open({
+          message: 'Error, please try again later',
+          type: 'is-danger'
+        })
+      }
+    }
+  }
 }
 </script>

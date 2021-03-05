@@ -100,62 +100,60 @@
 </template>
 
 <script>
-import { getYearbook } from "@/services/user.js"
-import { getThemes } from "@/services/common.js"
-import { uploadYearbook, deleteYearbook } from "@/services/admin.js"
+import { getYearbook } from '@/services/user.js'
+import { getThemes } from '@/services/common.js'
+import { uploadYearbook, deleteYearbook } from '@/services/admin.js'
 export default {
-    name: "Yearbook",
-    data() {
-        return {
-            yearbook: null,
-            generating: false,
-            banner: null,
-            themes: [],
-            chosenTheme: 0 // Index of chosen theme, 0 default (first)
-        }
-    },
-    methods: {
-        uploadYearbook: async function() {
-            this.generating = true
-            const newYearbook = await uploadYearbook(this.theme.id, this.banner)
-            if (newYearbook.code === "C") {
-                this.$buefy.toast.open(this.$t("generated.success"))
-                this.yearbook = await getYearbook()
-            }
-            else {
-                this.$buefy.toast.open({
-                    duration: 3000,
-                    message: `${this.$t("generated.error")}, ${newYearbook.error}`,
-                    position: 'is-bottom',
-                    type: 'is-success'
-                })
-            }
-            this.generating = false
-        },
-        deleteYearbook: async function() {
-            const delYearbook = await deleteYearbook()
-            if (delYearbook.code === "C") {
-                this.$buefy.toast.open(this.$t("generated.deleted"))
-                this.yearbook = await getYearbook()
-            }
-            else {
-                this.$buefy.toast.open({
-                    duration: 3000,
-                    message: `${this.$t("delete.error")}, ${delYearbook.error}`,
-                    position: 'is-bottom',
-                    type: 'is-danger'
-                })
-            }
-        }
-    },
-    created: async function() {
-        this.yearbook = await getYearbook()
-        this.themes = await getThemes()
-    },
-    computed: {
-        theme: function() {
-            return this.themes[this.chosenTheme]
-        }
+  name: 'Yearbook',
+  data () {
+    return {
+      yearbook: null,
+      generating: false,
+      banner: null,
+      themes: [],
+      chosenTheme: 0 // Index of chosen theme, 0 default (first)
     }
+  },
+  methods: {
+    uploadYearbook: async function () {
+      this.generating = true
+      const newYearbook = await uploadYearbook(this.theme.id, this.banner)
+      if (newYearbook.code === 'C') {
+        this.$buefy.toast.open(this.$t('generated.success'))
+        this.yearbook = await getYearbook()
+      } else {
+        this.$buefy.toast.open({
+          duration: 3000,
+          message: `${this.$t('generated.error')}, ${newYearbook.error}`,
+          position: 'is-bottom',
+          type: 'is-success'
+        })
+      }
+      this.generating = false
+    },
+    deleteYearbook: async function () {
+      const delYearbook = await deleteYearbook()
+      if (delYearbook.code === 'C') {
+        this.$buefy.toast.open(this.$t('generated.deleted'))
+        this.yearbook = await getYearbook()
+      } else {
+        this.$buefy.toast.open({
+          duration: 3000,
+          message: `${this.$t('delete.error')}, ${delYearbook.error}`,
+          position: 'is-bottom',
+          type: 'is-danger'
+        })
+      }
+    }
+  },
+  created: async function () {
+    this.yearbook = await getYearbook()
+    this.themes = await getThemes()
+  },
+  computed: {
+    theme: function () {
+      return this.themes[this.chosenTheme]
+    }
+  }
 }
 </script>

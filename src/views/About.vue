@@ -87,8 +87,8 @@
 
 <script>
 export default {
-  name: "About",
-  data() {
+  name: 'About',
+  data () {
     return {
       app_version: process.env.VUE_APP_VERSION
     }

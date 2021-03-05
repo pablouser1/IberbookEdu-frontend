@@ -61,51 +61,49 @@
 <script>
 import { startup } from '@/services/common.js'
 export default {
-    name: "Setup",
-    methods: {
-        setNewServer: async function () {
-            const serverinfo = await startup(this.newServer)
-            if (serverinfo) {
-                this.$store.commit('setNewServer', this.newServer)
-                localStorage.servers = JSON.stringify(this.servers)
-                this.setActiveServer(this.newServer)
-                this.activeStep++;
-                this.serverReady = true
-            }
-            else {
-                this.$buefy.toast.open({
-                    duration: 5000,
-                    message: `Error while connecting to remote server`,
-                    position: 'is-bottom',
-                    type: 'is-danger'
-                })
-            }
-        },
-        setActiveServer: async function(server) {
-            this.$store.commit('setActiveServer', server)
-            localStorage.servers = JSON.stringify(this.servers)
-        },
-        goHome: function() {
-            if (this.servers.active) {
-                this.$router.push("/")
-            }
-            else {
-                this.$buefy.toast.open("No active server")
-                this.activeStep--;
-            }
-        }
+  name: 'Setup',
+  methods: {
+    setNewServer: async function () {
+      const serverinfo = await startup(this.newServer)
+      if (serverinfo) {
+        this.$store.commit('setNewServer', this.newServer)
+        localStorage.servers = JSON.stringify(this.servers)
+        this.setActiveServer(this.newServer)
+        this.activeStep++
+        this.serverReady = true
+      } else {
+        this.$buefy.toast.open({
+          duration: 5000,
+          message: 'Error while connecting to remote server',
+          position: 'is-bottom',
+          type: 'is-danger'
+        })
+      }
     },
-    data() {
-        return {
-            activeStep: 0,
-            newServer: "",
-            serverReady: false
-        }
+    setActiveServer: async function (server) {
+      this.$store.commit('setActiveServer', server)
+      localStorage.servers = JSON.stringify(this.servers)
     },
-    computed: {
-        servers: function() {
-            return this.$store.state.servers;
-        }
+    goHome: function () {
+      if (this.servers.active) {
+        this.$router.push('/')
+      } else {
+        this.$buefy.toast.open('No active server')
+        this.activeStep--
+      }
     }
+  },
+  data () {
+    return {
+      activeStep: 0,
+      newServer: '',
+      serverReady: false
+    }
+  },
+  computed: {
+    servers: function () {
+      return this.$store.state.servers
+    }
+  }
 }
 </script>

@@ -32,16 +32,16 @@
 
 <script>
 export default {
-    name: "SearchYB",
-    data() {
-        return {
-            sortValue: "votes", // Default
-        }
-    },
-    watch: {
-        "sortValue": function(sortby) {
-            this.$emit('change-sort', sortby)
-        }
+  name: 'SearchYB',
+  data () {
+    return {
+      sortValue: 'votes' // Default
     }
+  },
+  watch: {
+    sortValue: function (sortby) {
+      this.$emit('change-sort', sortby)
+    }
+  }
 }
 </script>

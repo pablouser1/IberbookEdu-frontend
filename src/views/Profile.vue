@@ -99,10 +99,10 @@
 </template>
 
 <script>
-import { setProfile } from "@/services/user.js"
+import { setProfile } from '@/services/user.js'
 export default {
-  name: "Profile",
-  data() {
+  name: 'Profile',
+  data () {
     return {
       activeStep: 0,
       selectedSchool: null,
@@ -111,18 +111,17 @@ export default {
     }
   },
   methods: {
-    setProfile: async function() {
+    setProfile: async function () {
       this.isLoading = true
       const profiledata = await setProfile(this.selectedSchool, this.selectedGroup)
       // Login is successful
-      if (profiledata && profiledata.code == "C") {
+      if (profiledata && profiledata.code === 'C') {
         const profileinfo = profiledata.data.profileinfo
         this.$store.commit('setProfileinfo', profileinfo)
         localStorage.profileinfo = JSON.stringify(profileinfo)
-        this.$router.push("/")
-      }
-      // Log failed
-      else {
+        this.$router.push('/')
+      } else {
+        // Login failed
         this.$buefy.dialog.alert({
           title: 'Error',
           message: profiledata.error,
@@ -135,9 +134,9 @@ export default {
     }
   },
   computed: {
-      userinfo() {
-          return this.$store.state.userinfo;
-        }
+    userinfo () {
+      return this.$store.state.userinfo
     }
-};
+  }
+}
 </script>

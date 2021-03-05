@@ -27,18 +27,18 @@
 </template>
 
 <script>
-import { getGroupGallery } from "@/services/user.js"
-import { BASE_URL } from "@/services/config.js"
+import { getGroupGallery } from '@/services/user.js'
+import { BASE_URL } from '@/services/config.js'
 export default {
-    name: "Gallery",
-    data() {
-        return {
-            gallery: [],
-            baseurl: BASE_URL
-        }
-    },
-    created: async function() {
-        this.gallery = await getGroupGallery()
+  name: 'Gallery',
+  data () {
+    return {
+      gallery: [],
+      baseurl: BASE_URL
     }
+  },
+  created: async function () {
+    this.gallery = await getGroupGallery()
+  }
 }
 </script>

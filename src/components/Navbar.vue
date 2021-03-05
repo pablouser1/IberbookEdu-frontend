@@ -79,10 +79,10 @@
 
 <script>
 export default {
-  name: "Navbar",
+  name: 'Navbar',
   computed: {
-    loggedin() {
-      return this.$store.state.loggedin;
+    loggedin () {
+      return this.$store.state.loggedin
     }
   }
 }

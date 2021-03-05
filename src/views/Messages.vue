@@ -8,37 +8,36 @@
 </template>
 
 <script>
-import {getMessages} from "@/services/user.js"
-import MessageCard from "@/components/Messages/MessageCard"
+import { getMessages } from '@/services/user.js'
+import MessageCard from '@/components/Messages/MessageCard'
 export default {
-    name: "Messages",
-    components: {MessageCard},
-    data() {
-        return {
-            isLoading: true,
-            messages: [],
-            offset: 0,
-            limit: false
-        }
-    },
-    methods: {
-        getMessages: async function() {
-            this.isLoading = true
-            const newMessages = await getMessages(this.offset)
-            if (newMessages.code === "C") {
-                for (let i=0; i<newMessages.data.length; i++) {
-                    this.messages.push(newMessages.data[i])
-                }
-                this.offset += newMessages.length
-            }
-            else if (newMessages.code === "NO-MORE") {
-                this.limit = true
-            }
-        }
-    },
-    created() {
-        this.getMessages()
-        this.isLoading = false
+  name: 'Messages',
+  components: { MessageCard },
+  data () {
+    return {
+      isLoading: true,
+      messages: [],
+      offset: 0,
+      limit: false
     }
+  },
+  methods: {
+    getMessages: async function () {
+      this.isLoading = true
+      const newMessages = await getMessages(this.offset)
+      if (newMessages.code === 'C') {
+        for (let i = 0; i < newMessages.data.length; i++) {
+          this.messages.push(newMessages.data[i])
+        }
+        this.offset += newMessages.length
+      } else if (newMessages.code === 'NO-MORE') {
+        this.limit = true
+      }
+    }
+  },
+  created () {
+    this.getMessages()
+    this.isLoading = false
+  }
 }
 </script>

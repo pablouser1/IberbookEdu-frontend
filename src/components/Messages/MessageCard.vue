@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "MessageCard",
-  props: ["name", "date", "message"]
-};
+  name: 'MessageCard',
+  props: ['name', 'date', 'message']
+}
 </script>

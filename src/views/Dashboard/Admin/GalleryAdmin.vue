@@ -94,79 +94,79 @@
 </template>
 
 <script>
-import UploadProgress from "@/components/UploadProgress.vue"
-import fileUpload from "@/services/fileUpload.js"
-import { deleteGallery } from "@/services/admin.js"
+import UploadProgress from '@/components/UploadProgress.vue'
+import FileUpload from '@/services/FileUpload.js'
+import { deleteGallery } from '@/services/admin.js'
 export default {
-    name: "GalleryAdmin",
-    components: { UploadProgress },
-    data() {
-        return {
-            files: {
-                photos: [],
-                videos: []
-            },
-            overwrite: false,
-            isUploading: false,
-            fileUploading: {
-                isActive: false,
-                current: 0,
-                total: 0,
-                type: ""
-            }
-        }
-    },
-    methods: {
-        deletePhoto(index) {
-            this.files.photos.splice(index, 1)
-        },
-        deleteVideo(index) {
-            this.files.videos.splice(index, 1)
-        },
-        startUpload: async function() {
-            this.isUploading = true
-            if (this.overwrite) {
-                const isDeleted = await deleteGallery();
-                if (isDeleted.code !== "C") {
-                    this.$buefy.toast.open({
-                        duration: 3000,
-                        message: isDeleted.error,
-                        position: 'is-bottom',
-                        type: 'is-danger'
-                    })
-                }
-            }
-            await this.uploadData()
-            this.isUploading = false
-        },
-        async uploadData() {
-            if (this.files.photos || this.files.videos) {
-                this.fileUploading.isActive = true
-                if (this.files.photos) {
-                    for (let i=0; i<this.files.photos.length; i++) {
-                        await this.uploadMedia(this.files.photos[i], "photo")
-                    }
-                }
-                if (this.files.videos) {
-                    for (let i=0; i<this.files.videos.length; i++) {
-                        await this.uploadMedia(this.files.videos[i], "video")
-                    }
-                }
-                this.fileUploading.isActive = false
-            }
-        },
-        async uploadMedia(media, type) {
-            var fileClass = new fileUpload(media, type, "/gallery/uploadMedia.php");
-            this.fileUploading.total = fileClass.NUM_CHUNKS
-            this.fileUploading.type = type
-            while (fileClass.start < fileClass.SIZE) {
-                this.fileUploading.current = fileClass.num
-                let res = await fileClass.send()
-                if (!res || res.code === "E") {
-                    break;
-                }
-            }
-        }
+  name: 'GalleryAdmin',
+  components: { UploadProgress },
+  data () {
+    return {
+      files: {
+        photos: [],
+        videos: []
+      },
+      overwrite: false,
+      isUploading: false,
+      fileUploading: {
+        isActive: false,
+        current: 0,
+        total: 0,
+        type: ''
+      }
     }
+  },
+  methods: {
+    deletePhoto (index) {
+      this.files.photos.splice(index, 1)
+    },
+    deleteVideo (index) {
+      this.files.videos.splice(index, 1)
+    },
+    startUpload: async function () {
+      this.isUploading = true
+      if (this.overwrite) {
+        const isDeleted = await deleteGallery()
+        if (isDeleted.code !== 'C') {
+          this.$buefy.toast.open({
+            duration: 3000,
+            message: isDeleted.error,
+            position: 'is-bottom',
+            type: 'is-danger'
+          })
+        }
+      }
+      await this.uploadData()
+      this.isUploading = false
+    },
+    async uploadData () {
+      if (this.files.photos || this.files.videos) {
+        this.fileUploading.isActive = true
+        if (this.files.photos) {
+          for (let i = 0; i < this.files.photos.length; i++) {
+            await this.uploadMedia(this.files.photos[i], 'photo')
+          }
+        }
+        if (this.files.videos) {
+          for (let i = 0; i < this.files.videos.length; i++) {
+            await this.uploadMedia(this.files.videos[i], 'video')
+          }
+        }
+        this.fileUploading.isActive = false
+      }
+    },
+    async uploadMedia (media, type) {
+      var fileClass = new FileUpload(media, type, '/gallery/uploadMedia.php')
+      this.fileUploading.total = fileClass.NUM_CHUNKS
+      this.fileUploading.type = type
+      while (fileClass.start < fileClass.SIZE) {
+        this.fileUploading.current = fileClass.num
+        const res = await fileClass.send()
+        if (!res || res.code === 'E') {
+          break
+        }
+      }
+    }
+  }
 }
 </script>

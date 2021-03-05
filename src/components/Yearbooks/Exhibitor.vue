@@ -48,19 +48,19 @@
 
 <script>
 import '@/assets/animations.css'
-import { BASE_URL } from "@/services/config.js"
+import { BASE_URL } from '@/services/config.js'
 export default {
-    name: "Exhibitor",
-    props: {
-        yearbooks: {
-            type: Array,
-            requiered: true
-        }
-    },
-    data() {
-        return {
-            baseurl: BASE_URL
-        }
+  name: 'Exhibitor',
+  props: {
+    yearbooks: {
+      type: Array,
+      requiered: true
     }
+  },
+  data () {
+    return {
+      baseurl: BASE_URL
+    }
+  }
 }
 </script>

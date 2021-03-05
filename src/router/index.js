@@ -44,8 +44,8 @@ const routes = [
     component: Login
   },
   {
-    path: "/profile",
-    name: "Profile",
+    path: '/profile',
+    name: 'Profile',
     component: Profile
   },
   {
@@ -58,26 +58,26 @@ const routes = [
         component: () => import(/* webpackChunkName: "dashboard_mainmenu" */ '../views/Dashboard/MainMenu.vue')
       },
       {
-        path: "uploads",
+        path: 'uploads',
         component: () => import(/* webpackChunkName: "dashboard_uploads" */ '../views/Dashboard/Uploads.vue')
       },
       {
-        path: "gallery",
+        path: 'gallery',
         component: () => import(/* webpackChunkName: "dashboard_gallery" */ '../views/Dashboard/Gallery.vue')
       },
       // ADMINS //
       {
-        path: "admin/uploads",
+        path: 'admin/uploads',
         component: () => import(/* webpackChunkName: "dashboard_adminuploads" */ '../views/Dashboard/Admin/GroupUploads.vue')
       },
       {
-        path: "admin/gallery",
+        path: 'admin/gallery',
         component: () => import(/* webpackChunkName: "dashboard_admingallery" */ '../views/Dashboard/Admin/GalleryAdmin.vue')
       },
       {
-        path: "admin/yearbook",
+        path: 'admin/yearbook',
         component: () => import(/* webpackChunkName: "dashboard_yearbook" */ '../views/Dashboard/Admin/Yearbook.vue')
-      },
+      }
     ]
   },
   {
@@ -99,25 +99,25 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  base: "/",
+  base: '/',
   routes
 })
 
 // Avoid unauthorized users enter dashboard
 router.beforeEach((to, from, next) => {
   switch (to.name) {
-    case "Dashboard":
-    case "Profile":
-    case "Messages":
+    case 'Dashboard':
+    case 'Profile':
+    case 'Messages':
       if (!localStorage.loggedin) {
-        next({name: "Home"})
+        next({ name: 'Home' })
       }
-    break;
-    case "Login":
-      if(localStorage.loggedin) {
-        next({name: "Dashboard"})
+      break
+    case 'Login':
+      if (localStorage.loggedin) {
+        next({ name: 'Dashboard' })
       }
-    break;
+      break
   }
   next()
 })

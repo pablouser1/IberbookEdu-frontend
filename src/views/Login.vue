@@ -45,45 +45,44 @@
 </template>
 
 <script>
-import { login } from "../services/common.js"
+import { login } from '../services/common.js'
 export default {
-    name: "Login",
-    data() {
-        return {
-            loggingIn: false,
-            input: {
-                username: "",
-                password: ""
-            }
-        }
-    },
-    methods: {
-        startLogin: async function() {
-            this.loggingIn = true
-            const logindata = await login(this.input)
-            // Log in failed
-            if (!logindata || logindata.code !== "C") {
-                this.$buefy.dialog.alert({
-                    title: 'Error',
-                    message: logindata.error,
-                    type: 'is-danger',
-                    ariaRole: 'alertdialog',
-                    ariaModal: true
-                })
-                this.loggingIn = false
-            }
-            // Log in OK
-            else {
-                const userinfo = logindata.data.userinfo
-                const type = logindata.data.userinfo.type
-                this.$store.commit('setLoggedin', type)
-                this.$store.commit('setUserinfo', userinfo)
-                localStorage.loggedin = type
-                localStorage.userinfo = JSON.stringify(userinfo)
-                this.loggingIn = false
-                this.$router.push("/profile")
-            }
-        }
+  name: 'Login',
+  data () {
+    return {
+      loggingIn: false,
+      input: {
+        username: '',
+        password: ''
+      }
     }
+  },
+  methods: {
+    startLogin: async function () {
+      this.loggingIn = true
+      const logindata = await login(this.input)
+      // Log in failed
+      if (!logindata || logindata.code !== 'C') {
+        this.$buefy.dialog.alert({
+          title: 'Error',
+          message: logindata.error,
+          type: 'is-danger',
+          ariaRole: 'alertdialog',
+          ariaModal: true
+        })
+        this.loggingIn = false
+      } else {
+        // Login OK
+        const userinfo = logindata.data.userinfo
+        const type = logindata.data.userinfo.type
+        this.$store.commit('setLoggedin', type)
+        this.$store.commit('setUserinfo', userinfo)
+        localStorage.loggedin = type
+        localStorage.userinfo = JSON.stringify(userinfo)
+        this.loggingIn = false
+        this.$router.push('/profile')
+      }
+    }
+  }
 }
 </script>

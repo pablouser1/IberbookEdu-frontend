@@ -36,14 +36,14 @@
 
 <script>
 export default {
-  name: "Footer",
-  data() {
+  name: 'Footer',
+  data () {
     return {
       app_version: process.env.VUE_APP_VERSION
     }
   },
   methods: {
-    changelang: function(lang) {
+    changelang: function (lang) {
       this.$root.$i18n.locale = lang
     }
   }

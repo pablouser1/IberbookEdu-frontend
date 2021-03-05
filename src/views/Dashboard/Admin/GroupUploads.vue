@@ -141,48 +141,47 @@
 </template>
 
 <script>
-import { BASE_URL } from "@/services/config.js"
-import { getGroupData } from "@/services/user.js"
-import { deleteUserItems } from "@/services/admin.js"
+import { BASE_URL } from '@/services/config.js'
+import { getGroupData } from '@/services/user.js'
+import { deleteUserItems } from '@/services/admin.js'
 export default {
-    name: "GroupUploads",
-    data() {
-        return {
-            baseurl: BASE_URL,
-            groupdata: [],
-            selected: null,
-            deletedElements: []
-        }
-    },
-    methods: {
-        deleteItems: async function() {
-            const res = await deleteUserItems(this.selected.id, this.deletedElements);
-            if (res.code === "C") {
-                this.$buefy.toast.open({
-                    duration: 3000,
-                    message: "Deleted successfully",
-                    position: 'is-bottom',
-                    type: 'is-danger'
-                })
-            }
-            else {
-                this.$buefy.toast.open({
-                    duration: 3000,
-                    message: res.error,
-                    position: 'is-bottom',
-                    type: 'is-danger'
-                })
-            }
-            this.groupdata = await getGroupData()
-        }
-    },
-    mounted: async function() {
-        this.groupdata = await getGroupData()
-    },
-    computed: {
-        profileinfo: function() {
-            return this.$store.state.profileinfo;
-        }
+  name: 'GroupUploads',
+  data () {
+    return {
+      baseurl: BASE_URL,
+      groupdata: [],
+      selected: null,
+      deletedElements: []
     }
+  },
+  methods: {
+    deleteItems: async function () {
+      const res = await deleteUserItems(this.selected.id, this.deletedElements)
+      if (res.code === 'C') {
+        this.$buefy.toast.open({
+          duration: 3000,
+          message: 'Deleted successfully',
+          position: 'is-bottom',
+          type: 'is-danger'
+        })
+      } else {
+        this.$buefy.toast.open({
+          duration: 3000,
+          message: res.error,
+          position: 'is-bottom',
+          type: 'is-danger'
+        })
+      }
+      this.groupdata = await getGroupData()
+    }
+  },
+  mounted: async function () {
+    this.groupdata = await getGroupData()
+  },
+  computed: {
+    profileinfo: function () {
+      return this.$store.state.profileinfo
+    }
+  }
 }
 </script>

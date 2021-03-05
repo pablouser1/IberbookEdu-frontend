@@ -76,22 +76,22 @@
 
 <script>
 export default {
-    name: "Dashboard",
-    data() {
-        return {
-            sideBar: false
-        }
-    },
-    methods: {
-        switchTab: function(tab) {
-            this.$router.push(tab)
-            this.sideBar = false
-        }
-    },
-    computed: {
-        userinfo() {
-            return this.$store.state.userinfo;
-        }
+  name: 'Dashboard',
+  data () {
+    return {
+      sideBar: false
     }
-};
+  },
+  methods: {
+    switchTab: function (tab) {
+      this.$router.push(tab)
+      this.sideBar = false
+    }
+  },
+  computed: {
+    userinfo () {
+      return this.$store.state.userinfo
+    }
+  }
+}
 </script>

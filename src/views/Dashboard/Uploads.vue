@@ -112,94 +112,94 @@
 </template>
 
 <script>
-import UploadProgress from "@/components/UploadProgress.vue"
-import { BASE_URL } from "@/services/config.js"
-import { getProfileUploads, handleMiscUpload } from "@/services/user.js"
-import fileUpload from "@/services/fileUpload.js"
+import UploadProgress from '@/components/UploadProgress.vue'
+import { BASE_URL } from '@/services/config.js'
+import { getProfileUploads, handleMiscUpload } from '@/services/user.js'
+import FileUpload from '@/services/FileUpload.js'
 export default {
-    name: "Uploads",
-    components: { UploadProgress },
-    data() {
-        return {
-            uploads: null,
-            baseurl: BASE_URL,
-            input: {
-                media: {
-                    photo: null,
-                    video: null
-                },
-                quote: null,
-                link: null
-            },
-            isLoading: true,
-            isUploading: false,
-            fileUploading: {
-                isActive: false,
-                current: 0,
-                total: 0,
-                type: ""
-            }
-        }
-    },
-    mounted: async function() {
-        this.uploads = await getProfileUploads()
-        this.isLoading = false
-    },
-    methods: {
-        async uploadData() {
-            this.isUploading = true
-            if (this.input.media.photo || this.input.media.video) {
-                this.fileUploading.isActive = true
-                if (this.input.media.photo) {
-                    await this.uploadMedia(this.input.media.photo, "photo")
-                }
-                if (this.input.media.video) {
-                    await this.uploadMedia(this.input.media.video, "video")
-                }
-                this.fileUploading.isActive = false
-            }
-            if (this.input.quote || this.input.link) {
-                const miscRes = handleMiscUpload(this.input.link, this.input.quote)
-                if (miscRes.code === "C") {
-                    this.$buefy.toast.open({
-                        duration: 3000,
-                        message: this.$t("upload.processed"),
-                        position: 'is-bottom',
-                        type: 'is-success'
-                    })
-                }
-            }
-            this.uploads = await getProfileUploads()
-            this.resetInput()
-            this.isUploading = false
+  name: 'Uploads',
+  components: { UploadProgress },
+  data () {
+    return {
+      uploads: null,
+      baseurl: BASE_URL,
+      input: {
+        media: {
+          photo: null,
+          video: null
         },
-        async uploadMedia(media, type) {
-            let fileClass = new fileUpload(media, type, "/users/uploadMedia.php");
-            this.fileUploading.total = fileClass.NUM_CHUNKS
-            this.fileUploading.type = type
-            while (fileClass.start < fileClass.SIZE) {
-                this.fileUploading.current = fileClass.num
-                let res = await fileClass.send()
-                if (!res || res.code === "E") {
-                    break;
-                }
-            }
-        },
-        resetInput() {
-            this.input.media.photo = null
-            this.input.media.video = null
-            this.input.quote = null
-            this.input.link = null
-        }
-    },
-    computed: {
-        userinfo: function() {
-            return this.$store.state.userinfo
-        },
-        profileinfo: function() {
-            return this.$store.state.profileinfo
-        }
+        quote: null,
+        link: null
+      },
+      isLoading: true,
+      isUploading: false,
+      fileUploading: {
+        isActive: false,
+        current: 0,
+        total: 0,
+        type: ''
+      }
     }
+  },
+  mounted: async function () {
+    this.uploads = await getProfileUploads()
+    this.isLoading = false
+  },
+  methods: {
+    async uploadData () {
+      this.isUploading = true
+      if (this.input.media.photo || this.input.media.video) {
+        this.fileUploading.isActive = true
+        if (this.input.media.photo) {
+          await this.uploadMedia(this.input.media.photo, 'photo')
+        }
+        if (this.input.media.video) {
+          await this.uploadMedia(this.input.media.video, 'video')
+        }
+        this.fileUploading.isActive = false
+      }
+      if (this.input.quote || this.input.link) {
+        const miscRes = handleMiscUpload(this.input.link, this.input.quote)
+        if (miscRes.code === 'C') {
+          this.$buefy.toast.open({
+            duration: 3000,
+            message: this.$t('upload.processed'),
+            position: 'is-bottom',
+            type: 'is-success'
+          })
+        }
+      }
+      this.uploads = await getProfileUploads()
+      this.resetInput()
+      this.isUploading = false
+    },
+    async uploadMedia (media, type) {
+      const fileClass = new FileUpload(media, type, '/users/uploadMedia.php')
+      this.fileUploading.total = fileClass.NUM_CHUNKS
+      this.fileUploading.type = type
+      while (fileClass.start < fileClass.SIZE) {
+        this.fileUploading.current = fileClass.num
+        const res = await fileClass.send()
+        if (!res || res.code === 'E') {
+          break
+        }
+      }
+    },
+    resetInput () {
+      this.input.media.photo = null
+      this.input.media.video = null
+      this.input.quote = null
+      this.input.link = null
+    }
+  },
+  computed: {
+    userinfo: function () {
+      return this.$store.state.userinfo
+    },
+    profileinfo: function () {
+      return this.$store.state.profileinfo
+    }
+  }
 }
 </script>
 
