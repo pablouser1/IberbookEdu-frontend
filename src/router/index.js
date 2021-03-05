@@ -23,11 +23,6 @@ const routes = [
     component: Config
   },
   {
-    path: '/setup',
-    name: 'Setup',
-    component: () => import(/* webpackChunkName: "setup" */ '../views/Setup.vue')
-  },
-  {
     path: '/yearbooks',
     name: 'Yearbooks',
     component: Yearbooks

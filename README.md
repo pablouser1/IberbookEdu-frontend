@@ -29,7 +29,3 @@ yarn build
 * Vue.js (https://vuejs.org)
 * Bulma (https://bulma.io)
 * Buefy (https://buefy.org)
-
-# TODO
-
-* Fix multiple servers (need to refresh to apply changes)
